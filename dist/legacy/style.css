@@ -1,0 +1,2627 @@
+:root{--orange:#FD5A1E;--cream:#FFF5E1;--bg:#060606;--panel:#111;--line:#333;--text:#f8f1e8;--muted:#aaa}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:radial-gradient(circle at top,#202020,#050505 60%);color:var(--text);font-family:Arial,sans-serif;padding-bottom:70px}
+header{position:sticky;top:0;z-index:20;background:#070707f5;border-bottom:1px solid #282828;padding:7px 10px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:8px}.logo{width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid var(--orange)}
+h1{font-size:21px;margin:0;color:var(--orange);font-style:italic}h1 span{color:var(--cream)}
+select,input,button,textarea{width:100%;padding:10px;border-radius:11px;border:1px solid #373737;background:#101010;color:var(--text);font-size:14px;margin:4px 0}
+button{font-weight:900;background:#141414}.screen{display:none;padding:7px}.screen.active{display:block}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:30;background:#070707;border-top:1px solid #282828;display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:5px}.tab{padding:6px 2px}.tab span{display:block;font-size:10px}.tab.active{background:linear-gradient(135deg,#ff3b0a,var(--orange))}
+.top{display:grid;grid-template-columns:1fr 1fr 55px 72px;gap:5px}.person,.inn{min-height:50px;text-align:left}.person small,.inn small{display:block;color:var(--orange);font-size:10px}.person b{font-size:12px}.inn select{padding:5px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:5px 0}.stats div{background:#101010;border:1px solid #333;border-radius:11px;text-align:center;padding:5px}.stats small{display:block;color:#999;font-size:9px}.stats b{color:var(--orange);font-size:16px}
+.card,.zoneCard,.more{background:linear-gradient(180deg,#151515,#090909);border:1px solid #333;border-radius:15px;padding:8px;margin-bottom:6px}
+.zoneTop{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px}.zoneTop b{color:var(--orange)}
+.zone{height:235px;position:relative;background:#090909;border:1px solid #3d3d3d;border-radius:13px;overflow:hidden;background-image:linear-gradient(#171717 1px,transparent 1px),linear-gradient(90deg,#171717 1px,transparent 1px);background-size:26px 26px}
+.strikeBox{position:absolute;left:36%;top:27%;width:28%;height:42%;border:3px solid var(--orange);border-radius:2px;box-shadow:0 0 18px #fd5a1e88;background:#fd5a1e15}
+#marker{display:none;position:absolute;transform:translate(-50%,-50%);font-size:24px;color:var(--cream);text-shadow:0 0 9px #fff}
+.pitchCompact{display:flex;gap:4px;align-items:center;overflow-x:auto;margin-bottom:5px}.pitchCompact span{font-size:11px;color:var(--orange);font-weight:900}.pitchCompact button{min-width:45px;min-height:30px;padding:4px 7px;font-size:10.5px;margin:0}.pitchCompact button.selected{background:var(--orange)}
+.countRow{display:grid;grid-template-columns:1fr 1fr 1fr 45px;gap:4px;margin-bottom:5px}.countRow button{padding:8px 3px}.countRow b{font-size:17px;color:var(--orange)}
+h3{font-size:11px;color:var(--orange);text-align:center;margin:0 0 5px}.quickGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.quickGrid button{min-height:42px;font-size:11px;padding:4px 2px}#resultBtn,#saveDetail,#exportCsv,#createGame{background:linear-gradient(135deg,#ff3b0a,var(--orange));border-color:#ff8a50}
+.row2{display:grid;grid-template-columns:70px 1fr;gap:5px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}.playerCard{background:#101010;border:1px solid #333;border-radius:12px;padding:8px;margin:6px 0}.playerRow{display:grid;grid-template-columns:35px 1fr 60px;gap:5px}.num{color:var(--orange);font-weight:900}.actions{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.overlay{position:fixed;inset:0;background:#0009;z-index:80}.hidden{display:none!important}.sheet{position:fixed;left:8px;right:8px;bottom:8px;max-height:83vh;overflow:auto;z-index:90;background:#090909;border:1px solid #444;border-radius:17px;padding:10px}.sheetHead{display:flex;justify-content:space-between;align-items:center}.sheetHead h2{font-size:16px;color:var(--orange)}.close{width:42px}
+.listBtn{display:grid;grid-template-columns:40px 1fr 55px;gap:5px;text-align:left}.choiceGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.choiceGrid button{min-height:48px}.choiceGrid.two{grid-template-columns:repeat(2,1fr)}.choiceGrid button.selected{background:var(--orange)}
+.statLine{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}.statLine div{background:#070707;border:1px solid #292929;border-radius:8px;text-align:center;padding:5px}.statLine small{display:block;color:#aaa;font-size:9px}.statLine strong{color:var(--orange);font-size:15px}
+table{width:100%;border-collapse:collapse;font-size:11px}td,th{border-bottom:1px solid #333;padding:6px;text-align:left}th{color:var(--orange)}textarea{height:180px;font-family:monospace;font-size:10px}.danger{background:#2a0b05;color:#ff8a50}
+.hero{text-align:center}.heroLogo{width:95px;height:95px;border-radius:50%;object-fit:cover;border:2px solid var(--orange)}
+
+/* Easy Tagg Daily v1.3 - In Game Data CSV */
+#exportInGameCsv,#copyInGameCsv{background:#101010;border-color:#FD5A1E;color:#FFF5E1}
+
+/* Easy Tagg Daily v1.4 */
+#exportInGameXls{background:linear-gradient(135deg,#222,#111);border-color:#FD5A1E;color:#FFF5E1}
+
+/* Easy Tagg Daily v1.5 */
+.sideBox{background:#101010;border:1px solid #333;border-radius:11px;min-height:50px;padding:4px}
+.sideBox small{display:block;color:#FD5A1E;font-size:10px;font-weight:900}
+.sideBox select{padding:5px;font-size:11px;margin:0}
+.editMini{font-size:10px;padding:4px 6px;background:#101010;border-color:#FD5A1E;color:#FFF5E1}
+
+/* Easy Tagg Daily v2.0 Final */
+.tagCard{display:grid;grid-template-columns:80px 1fr 72px;gap:8px;align-items:center;border-bottom:1px solid #334155;padding:10px 0}
+.tagMeta{font-size:11px;color:#9fb3c8;font-weight:900}
+.tagMatch{font-size:13px;line-height:1.15;font-weight:900;color:#fff}
+.tagResult{font-size:14px;font-weight:1000;text-align:center;padding:7px 6px;border-radius:10px;border:1px solid #334155}
+.resultHit{background:rgba(34,197,94,.18);border-color:#22c55e;color:#86efac}
+.resultK{background:rgba(239,68,68,.20);border-color:#ef4444;color:#fecaca}
+.resultWalk{background:rgba(234,179,8,.18);border-color:#eab308;color:#fde68a}
+.resultOut{background:rgba(148,163,184,.16);border-color:#94a3b8;color:#e2e8f0}
+.resultOther{background:rgba(253,90,30,.15);border-color:#FD5A1E;color:#FFF5E1}
+.tagActions{display:flex;gap:4px;justify-content:flex-end}
+.tagActions button{font-size:10px;padding:5px 6px}
+.editMini{font-size:10px;padding:4px 6px;background:#101010;border-color:#FD5A1E;color:#FFF5E1}
+.deleteMini{font-size:10px;padding:4px 6px;background:#7f1d1d;border-color:#ef4444;color:#fff}
+.historyFilter{display:flex;gap:6px;margin:8px 0}
+.historyFilter input,.historyFilter select{font-size:12px;padding:7px;border-radius:8px}
+
+/* Easy Tagg Daily v2.1 - Historial real */
+.historyTool{display:grid;grid-template-columns:1fr 110px;gap:6px;margin-bottom:8px}
+.historyTool input,.historyTool select{font-size:12px;padding:7px;border-radius:9px}
+.tagCardV21{display:grid;grid-template-columns:78px 1fr 84px;gap:8px;align-items:center;background:#0b0b0b;border:1px solid #2f2f2f;border-radius:12px;padding:9px;margin:7px 0}
+.tagTimeV21{font-size:10px;color:#9fb3c8;font-weight:900}
+.tagMainV21{font-size:12px;font-weight:900;color:#fff;line-height:1.25}
+.tagSubV21{font-size:10px;color:#aaa;margin-top:3px}
+.tagResultV21{font-size:12px;font-weight:1000;text-align:center;border-radius:9px;padding:6px 4px;border:1px solid #444;margin-bottom:4px}
+.hitV21{background:rgba(34,197,94,.18);border-color:#22c55e;color:#86efac}
+.kV21{background:rgba(239,68,68,.2);border-color:#ef4444;color:#fecaca}
+.walkV21{background:rgba(234,179,8,.18);border-color:#eab308;color:#fde68a}
+.outV21{background:rgba(148,163,184,.16);border-color:#94a3b8;color:#e2e8f0}
+.otherV21{background:rgba(253,90,30,.15);border-color:#FD5A1E;color:#FFF5E1}
+.tagActionsV21{display:grid;grid-template-columns:1fr 34px;gap:4px}
+.tagActionsV21 button{font-size:10px;padding:5px 3px;margin:0}
+.editV21{background:#101010;border-color:#FD5A1E;color:#FFF5E1}
+.delV21{background:#7f1d1d;border-color:#ef4444;color:#fff}
+
+/* EasyTagg v2.4.1 Clean Lineup Modal */
+.lineupToolsCleanV241{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 14px}
+.lineupToolsCleanV241 button{padding:12px;font-weight:900;border-radius:12px}
+.lineupPlayerCleanV241{border:1px solid #395064;border-radius:14px;margin:8px 0;background:#142033;overflow:hidden}
+.lineupMainCleanV241{display:grid;grid-template-columns:46px 1fr 66px;gap:10px;align-items:center;padding:12px}
+.lineupOrderCleanV241{color:#FD5A1E;font-size:22px;font-weight:1000;text-align:center}
+.lineupNameCleanV241{font-size:18px;font-weight:1000;color:#fff}
+.lineupSubCleanV241{font-size:13px;color:#d1d5db;margin-top:2px}
+.lineupActionsCleanV241{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 12px 12px}
+.lineupActionsCleanV241 button{padding:9px;border-radius:10px;font-size:13px;font-weight:900}
+.rosterAddCleanV241{border:1px solid #395064;border-radius:14px;margin:8px 0;background:#142033;display:grid;grid-template-columns:44px 1fr 90px;gap:8px;align-items:center;padding:12px}
+.rosterAddCleanV241 button{padding:10px;border-radius:10px;font-size:13px;font-weight:900}
+.hint{color:#cbd5e1;font-size:13px;line-height:1.35}
+@media(max-width:520px){
+  .lineupMainCleanV241{grid-template-columns:42px 1fr 58px}
+  .lineupNameCleanV241{font-size:17px}
+}
+
+/* EasyTagg v2.4.3 remove clear lineup + fix delete buttons */
+#lineupClearBtnV241,#lineupClearBtn{display:none!important}
+.lineupToolsCleanV241{grid-template-columns:1fr!important}
+
+/* EasyTagg v2.5.1 Stable Roster */
+.rosterScopeV251{color:#FD5A1E;font-weight:900;font-size:12px;margin-top:3px}
+.rosterDeletedNoteV251{color:#94a3b8;font-size:12px}
+.hint{color:#cbd5e1;font-size:13px;line-height:1.35}
+#lineupClearBtnV241,#lineupClearBtn{display:none!important}
+
+/* EasyTagg v2.5.2 Activity Roster Fix */
+.activityRosterToolsV252 button{margin-top:10px}
+.activityPlayerV252{border:1px solid #395064;border-radius:14px;margin:8px 0;background:#142033;display:grid;grid-template-columns:44px 1fr 92px;gap:8px;align-items:center;padding:12px}
+.activityPlayerV252 button{padding:9px;border-radius:10px;font-size:13px;font-weight:900}
+.activityScopeV252{color:#FD5A1E;font-weight:900;font-size:12px;margin-top:3px}
+.hint{color:#cbd5e1;font-size:13px;line-height:1.35}
+
+/* EasyTagg v2.5.3 Strict Activity Roster */
+.strictRosterV253{color:#FD5A1E;font-weight:900;font-size:12px;margin-top:4px}
+
+/* EasyTagg v2.5.4 Simple Roster Form */
+.simpleRosterV254{color:#FD5A1E;font-weight:900;font-size:12px;margin-top:4px}
+.simpleRosterTypeV254{font-size:13px;color:#cbd5e1}
+
+/* EasyTagg v2.5.5 Simple Roster + Lineup Fix */
+.lineupToolsCleanV255{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0 14px}
+.lineupToolsCleanV255 button{padding:12px;font-weight:900;border-radius:12px}
+.lineupPlayerCleanV255{border:1px solid #395064;border-radius:14px;margin:8px 0;background:#142033;overflow:hidden}
+.lineupMainCleanV255{display:grid;grid-template-columns:46px 1fr 70px;gap:10px;align-items:center;padding:12px}
+.lineupOrderCleanV255{color:#FD5A1E;font-size:22px;font-weight:1000;text-align:center}
+.lineupNameCleanV255{font-size:18px;font-weight:1000;color:#fff}
+.lineupSubCleanV255{font-size:13px;color:#d1d5db;margin-top:2px}
+.lineupActionsCleanV255{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 12px 12px}
+.lineupActionsCleanV255 button{padding:9px;border-radius:10px;font-size:13px;font-weight:900}
+.rosterAddCleanV255{border:1px solid #395064;border-radius:14px;margin:8px 0;background:#142033;display:grid;grid-template-columns:44px 1fr 90px;gap:8px;align-items:center;padding:12px}
+.rosterAddCleanV255 button{padding:10px;border-radius:10px;font-size:13px;font-weight:900}
+
+/* EasyTagg v2.7 Dual Lineup Engine */
+.dualLineupTabsV27{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.dualLineupTabsV27 button,.offenseSwitchV27 button{padding:11px;border-radius:12px;font-weight:1000}
+.dualLineupTabsV27 button.active,.offenseSwitchV27 button.active{background:var(--orange)!important;color:#111!important}
+.offenseSwitchV27{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0}
+.lineupTeamLabelV27{color:#FD5A1E;font-weight:1000;font-size:12px;margin:5px 0 8px;text-align:center}
+
+
+/* EasyTagg v2.7.1 Stable Clean - No Scroll + Edit Only + Tricky */
+/* No cambiar lógica: solo presentación */
+html, body{
+  max-width:100%!important;
+  overflow-x:hidden!important;
+}
+*{
+  box-sizing:border-box!important;
+}
+.app{
+  width:100%!important;
+  max-width:430px!important;
+  margin:0 auto!important;
+  overflow-x:hidden!important;
+}
+
+/* Evitar desbordes horizontales */
+button,input,select,textarea,.card,.sheet,.playerCard,.tagCard,.zoneCard,.stats,.top,.resultGrid,.offenseSwitchV27{
+  max-width:100%!important;
+}
+
+/* Compactar levemente para evitar scroll vertical sin mover el flujo */
+.top{gap:5px!important;margin-bottom:5px!important}
+.person{min-height:42px!important;padding:6px!important}
+.person small{font-size:9px!important}
+.person b{font-size:13px!important}
+.stats{gap:5px!important;margin-bottom:5px!important}
+.stats div{padding:5px!important}
+.stats small{font-size:9px!important}
+.stats b{font-size:16px!important}
+.zoneCard{margin-bottom:5px!important;padding:6px!important}
+.zone{height:170px!important}
+.countRow{gap:5px!important;margin-bottom:5px!important}
+.countRow button{min-height:34px!important;padding:5px!important}
+.resultGrid{gap:5px!important}
+.resultGrid button{min-height:38px!important;padding:5px!important;font-size:12px!important}
+
+/* Roster/Historial: ocultar acciones no usadas */
+button.danger,
+.deleteMini,
+.historyDeleteSafeV283,
+button[onclick*="Delete"],
+button[onclick*="delete"],
+button[onclick*="delTag"],
+button[onclick*="DeleteTag"],
+button[onclick*="Remove"],
+button[onclick*="remove"],
+button[onclick*="Quitar"],
+button[onclick*="quitar"]{
+  display:none!important;
+}
+
+/* Si un contenedor de acciones tenía 2-3 columnas, dejarlo limpio con Editar */
+.actions,.tagActions{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:6px!important;
+}
+.actions button,.tagActions button{
+  width:100%!important;
+}
+
+
+/* EasyTagg v2.7.2 UI Compact - Home/Visitor smaller + Tricky only Create */
+.offenseSwitchV27{
+  gap:4px!important;
+  margin:3px 0!important;
+}
+.offenseSwitchV27 button,
+#offenseAwayBtnV27,
+#offenseHomeBtnV27,
+#dualLineupAwayBtnV27,
+#dualLineupHomeBtnV27{
+  min-height:28px!important;
+  padding:4px 6px!important;
+  font-size:11px!important;
+  line-height:1.05!important;
+  border-radius:10px!important;
+}
+
+/* Keep layout stable/no side scroll */
+html,body{max-width:100%!important;overflow-x:hidden!important}
+.app{max-width:430px!important;margin:0 auto!important;overflow-x:hidden!important}
+*{box-sizing:border-box!important}
+
+
+/* EasyTagg v2.7.3 - BAT stacked buttons, no dropdown on TAG */
+
+/* BAT card compact */
+.batBoxV273,
+.batSideBox,
+.batBox,
+.battingBox,
+.batCard{
+  overflow:hidden!important;
+}
+
+/* Hide BAT dropdown only on the TAG screen/card */
+#battingSide,
+#batSide,
+#half,
+select#battingSide,
+select#batSide{
+  display:none!important;
+}
+
+/* Stack Home/Visitor/team buttons vertically */
+.offenseSwitchV27{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:4px!important;
+  width:100%!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+}
+
+.offenseSwitchV27 button,
+#offenseAwayBtnV27,
+#offenseHomeBtnV27,
+#dualLineupAwayBtnV27,
+#dualLineupHomeBtnV27{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  min-height:30px!important;
+  padding:4px 5px!important;
+  font-size:10.5px!important;
+  line-height:1.05!important;
+  border-radius:10px!important;
+  white-space:normal!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  word-break:break-word!important;
+}
+
+/* Prevent right overflow */
+html,body{max-width:100%!important;overflow-x:hidden!important}
+.app{max-width:430px!important;margin:0 auto!important;overflow-x:hidden!important}
+*{box-sizing:border-box!important}
+
+
+/* EasyTagg v2.7.4 - Pitch Count by Selected Pitcher */
+.pitchCountByPitcherV274 b,
+.pitchCountByPitcherV274 .num,
+.pitchCountByPitcherV274 strong{
+  color:#FD5A1E!important;
+}
+
+
+/* EasyTagg v2.7.5 - Immediate Result Tag + Hit Location */
+.hitLocationGridV275{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin:8px 0 12px;
+}
+.hitLocationGridV275 button{
+  min-height:42px;
+  border-radius:10px;
+  border:1px solid rgba(148,163,184,.40);
+  background:#111827;
+  color:#fff;
+  font-weight:900;
+}
+.hitLocationGridV275 button.selected{
+  background:#FD5A1E;
+  border-color:#ff9a66;
+  box-shadow:0 0 0 2px rgba(253,90,30,.22);
+}
+.pendingResultV275{
+  color:#fbbf24!important;
+}
+
+
+/* EasyTagg v2.7.6 - Interactive Field Location */
+#hitLocationGridV275,
+.hitLocationGridV275{
+  display:none!important;
+}
+.fieldLocationWrapV276{
+  position:relative;
+  width:100%;
+  margin:8px 0 6px;
+  border:2px solid rgba(253,90,30,.65);
+  border-radius:14px;
+  overflow:hidden;
+  background:#020617;
+  touch-action:manipulation;
+  user-select:none;
+  -webkit-user-select:none;
+}
+.fieldLocationWrapV276 img{
+  display:block;
+  width:100%;
+  height:auto;
+  pointer-events:none;
+}
+.fieldMarkerV276{
+  position:absolute;
+  width:18px;
+  height:18px;
+  margin-left:-9px;
+  margin-top:-9px;
+  border-radius:50%;
+  background:#ff5a1f;
+  border:3px solid #fff;
+  box-shadow:0 0 0 3px rgba(0,0,0,.55),0 0 14px rgba(255,90,31,.95);
+  pointer-events:none;
+}
+.fieldMarkerV276.hidden{
+  display:none;
+}
+.fieldLocationActionsV276{
+  display:grid;
+  gap:7px;
+  margin-bottom:12px;
+}
+.fieldLocationActionsV276 span{
+  color:#cbd5e1;
+  font-size:12px;
+  text-align:center;
+}
+.fieldLocationActionsV276 button{
+  min-height:36px;
+  border-radius:9px;
+  border:1px solid rgba(148,163,184,.35);
+  background:#374151;
+  color:#fff;
+  font-weight:900;
+}
+
+
+/* EasyTagg v2.7.8 - Automatic batted-ball trajectory */
+.fieldTrajectoryV278{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  overflow:visible;
+}
+.fieldTrajectoryV278.hidden{display:none}
+.fieldTrajectoryV278 path{
+  fill:none;
+  stroke:#ff5a1f;
+  stroke-width:8;
+  vector-effect:non-scaling-stroke;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.75));
+}
+.fieldTrajectoryV278.fly path{stroke-dasharray:none}
+.fieldTrajectoryV278.line path{stroke-dasharray:none}
+.fieldTrajectoryV278.ground path{stroke-dasharray:20 18}
+.fieldTrajectoryV278.popup path{stroke-dasharray:5 13}
+
+
+/* ================= EASY TAGG v2.9.4 RUNNER EVENTS + RBI ================= */
+.runnerEventBtnV294{
+  width:100%;
+  min-height:44px;
+  margin:8px 0 4px;
+  border:1px solid rgba(253,90,30,.75);
+  border-radius:11px;
+  background:#111827;
+  color:#fff;
+  font-weight:950;
+  letter-spacing:.3px;
+}
+.runnerEventBtnV294:active{transform:scale(.99)}
+.compactSheetV294{
+  max-height:calc(100dvh - 18px)!important;
+  overflow:hidden!important;
+  padding-bottom:12px!important;
+}
+.compactSheetV294 .sheetHead{margin-bottom:5px!important}
+.compactHintV294{
+  margin:2px 0 8px;
+  font-size:12px;
+  color:#cbd5e1;
+  text-align:center;
+}
+.rbiGridV294{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+  margin:7px 0 10px;
+}
+.rbiGridV294 button{
+  min-height:48px;
+  border-radius:10px;
+  border:1px solid rgba(148,163,184,.45);
+  background:#1f2937;
+  color:#fff;
+  font-size:18px;
+  font-weight:950;
+}
+.rbiGridV294 button.selected,
+.runnerEventGridV294 button.selected{
+  background:#FD5A1E!important;
+  border-color:#ffad83!important;
+  box-shadow:0 0 0 2px rgba(253,90,30,.2);
+}
+.runnerLabelV294{
+  display:block;
+  margin:3px 0 4px;
+  font-size:12px;
+  color:#cbd5e1;
+  font-weight:800;
+}
+.runnerSelectV294{
+  width:100%;
+  min-height:42px;
+  margin-bottom:8px;
+  border-radius:9px;
+  border:1px solid rgba(148,163,184,.45);
+  background:#111827;
+  color:#fff;
+  font-weight:800;
+}
+.runnerEventGridV294{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:7px;
+  margin-bottom:9px;
+}
+.runnerEventGridV294 button{
+  min-height:40px;
+  padding:7px 4px;
+  border-radius:9px;
+  border:1px solid rgba(148,163,184,.42);
+  background:#1f2937;
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+}
+.primaryCompactV294{
+  width:100%;
+  min-height:42px;
+  border:0;
+  border-radius:10px;
+  background:#FD5A1E;
+  color:#fff;
+  font-weight:950;
+}
+.runnerHistoryV294{
+  margin:10px 0 2px;
+  border:1px solid rgba(253,90,30,.35);
+  border-radius:11px;
+  overflow:hidden;
+}
+.runnerHistoryV294 h3{
+  margin:0;
+  padding:9px 10px;
+  background:#111827;
+  color:#FD5A1E;
+  font-size:13px;
+}
+.runnerHistoryRowV294{
+  display:grid;
+  grid-template-columns:1fr auto auto;
+  gap:7px;
+  align-items:center;
+  padding:8px 10px;
+  border-top:1px solid rgba(148,163,184,.16);
+  font-size:12px;
+}
+.runnerHistoryRowV294 b{color:#fff}
+.runnerHistoryRowV294 span{color:#cbd5e1}
+.runnerHistoryRowV294 button{
+  min-height:28px;
+  padding:3px 8px;
+  background:#7f1d1d;
+  color:#fff;
+  border:0;
+  border-radius:7px;
+  font-weight:800;
+}
+
+
+/* ================= EASY TAGG v2.9.5 COMPACT + RUNNER MINI HISTORY ================= */
+/* Menos scroll solo en TAG, AJUSTES y sheets. Roster e Historial conservan scroll normal. */
+#tagScreen{padding-top:4px!important;padding-bottom:4px!important}
+#tagScreen .top{margin-bottom:3px!important}
+#tagScreen .stats{margin:3px 0!important}
+#tagScreen .zoneCard{padding:5px!important;margin-bottom:4px!important}
+#tagScreen .zone{height:148px!important}
+#tagScreen .pitchCompact{margin-bottom:3px!important}
+#tagScreen .countRow{margin-bottom:3px!important}
+#tagScreen .card{padding:6px!important;margin-bottom:4px!important}
+#tagScreen .quickGrid button{min-height:36px!important}
+#tagScreen .runnerEventBtnV294{min-height:38px!important;margin:4px 0 2px!important}
+#tagScreen .more{padding:5px!important;margin-bottom:2px!important}
+
+#setupScreen{padding-top:4px!important;padding-bottom:4px!important}
+#setupScreen .card,#setupScreen .hero{padding:6px!important;margin-bottom:4px!important}
+#setupScreen .heroLogo{width:66px!important;height:66px!important}
+#setupScreen input,#setupScreen select,#setupScreen button{padding:8px!important;margin:3px 0!important}
+
+/* Mantener estas dos pantallas desplazables. */
+#rosterScreen,#historyScreen{overflow-y:auto!important;-webkit-overflow-scrolling:touch!important}
+
+/* Sheets más compactos sin cambiar orden ni posición de controles. */
+.sheet:not(#batterSheet):not(#pitcherSheet):not(#lineupAddSheetV241){padding:8px!important}
+.sheet:not(#batterSheet):not(#pitcherSheet):not(#lineupAddSheetV241) input,
+.sheet:not(#batterSheet):not(#pitcherSheet):not(#lineupAddSheetV241) select,
+.sheet:not(#batterSheet):not(#pitcherSheet):not(#lineupAddSheetV241) button{padding:8px!important;margin:3px 0!important}
+
+#runnerEventSheetV294{max-height:calc(100dvh - 16px)!important;overflow:hidden!important}
+#runnerEventSheetV294 .runnerEventGridV294{gap:5px!important;margin-bottom:6px!important}
+#runnerEventSheetV294 .runnerEventGridV294 button{min-height:34px!important;padding:5px 3px!important}
+#runnerEventSheetV294 .runnerSelectV294{min-height:36px!important;margin-bottom:5px!important}
+#runnerEventSheetV294 .primaryCompactV294{min-height:36px!important}
+
+.runnerMiniHistoryV295{margin-top:7px;border:1px solid rgba(253,90,30,.36);border-radius:10px;overflow:hidden;background:#0b0b0b}
+.runnerMiniHistoryHeadV295{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;background:#111827;color:#FD5A1E;font-size:11px}
+.runnerMiniHistoryHeadV295 span{min-width:22px;text-align:center;border-radius:999px;background:#FD5A1E;color:#fff;padding:2px 6px;font-weight:900}
+.runnerMiniHistoryListV295{max-height:150px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.runnerMiniRowV295{display:grid;grid-template-columns:1fr 30px;gap:6px;align-items:center;padding:6px 8px;border-top:1px solid rgba(148,163,184,.14)}
+.runnerMiniRowV295:first-child{border-top:0}
+.runnerMiniRowV295 div{display:grid;grid-template-columns:1fr auto;column-gap:6px;align-items:center;min-width:0}
+.runnerMiniRowV295 b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:#fff}
+.runnerMiniRowV295 span{font-size:11px;color:#FD5A1E;font-weight:900}
+.runnerMiniRowV295 small{grid-column:1/-1;color:#cbd5e1;font-size:10px;margin-top:1px}
+.runnerMiniRowV295 button{width:28px!important;min-height:28px!important;margin:0!important;padding:0!important;border:0;border-radius:8px;background:#7f1d1d;color:#fff;font-size:17px}
+.runnerMiniEmptyV295{margin:0;padding:10px;text-align:center;color:#94a3b8;font-size:11px}
+
+@media (max-height:700px){
+  #tagScreen .zone{height:125px!important}
+  #tagScreen .quickGrid button{min-height:32px!important}
+  .runnerMiniHistoryListV295{max-height:112px}
+}
+
+
+/* ================= EASY TAGG v2.9.7 PLAYER DATABASE CSV ================= */
+.playerDbOpenBtnV297{margin-top:6px!important;background:#1f2937!important;border:1px solid rgba(253,90,30,.55)!important;color:#fff!important}
+#playerDatabaseSheetV297{max-height:calc(100dvh - 16px);overflow:hidden;display:flex;flex-direction:column}
+#playerDatabaseSheetV297.hidden{display:none!important}
+.playerDbControlsV297{display:grid;grid-template-columns:minmax(0,1fr);gap:7px;flex:0 0 auto;width:100%}
+.playerDbControlsV297 input{min-height:40px;margin:0!important;width:100%;min-width:0}
+.playerDbStatusV297{padding:7px 2px 5px;color:#94a3b8;font-size:11px;font-weight:800;flex:0 0 auto}
+.playerDbResultsV297{overflow-y:auto;-webkit-overflow-scrolling:touch;min-height:0;padding-right:2px}
+.playerDbRowV297{display:grid;grid-template-columns:1fr 82px;gap:8px;align-items:center;padding:8px 3px;border-top:1px solid rgba(148,163,184,.18)}
+.playerDbIdentityV297{min-width:0}
+.playerDbIdentityV297 b{display:block;color:#fff;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.playerDbIdentityV297 small{display:block;color:#94a3b8;font-size:10px;line-height:1.35;margin-top:2px}
+.playerDbRowV297 button{min-height:34px!important;margin:0!important;padding:5px!important;font-size:11px!important;background:#FD5A1E!important;color:#fff!important;border:0!important;border-radius:8px!important;font-weight:900!important}
+.playerDbRowV297 button:disabled{background:#334155!important;color:#94a3b8!important}
+.playerDbEmptyV297{padding:18px 8px;text-align:center;color:#94a3b8;font-size:12px}
+@media(max-width:390px){.playerDbControlsV297{grid-template-columns:minmax(0,1fr)}.playerDbRowV297{grid-template-columns:1fr 74px}}
+
+
+/* ================= EASY TAGG v2.9.8 CSV DATABASE UPDATE ================= */
+.playerDbUpdateBoxV298{display:flex;flex-direction:column;gap:6px;margin:6px 0 8px}
+.playerDbUpdateBtnV298{width:100%;min-height:42px;font-weight:800}
+.playerDbUpdateStatusV298{font-size:12px;line-height:1.35;min-height:16px;color:#d7d7d7}
+.playerDbUpdateStatusV298.ok{color:#9be29b}
+.playerDbUpdateStatusV298.err{color:#ff9b9b}
+
+/* v2.9.9 - Complete player information inside the existing roster card */
+.playerMainInfoV299{min-width:0}
+.playerMainInfoV299>b{display:block;font-size:15px;line-height:1.2;margin-bottom:5px}
+.playerDetailsV299{display:flex;flex-wrap:wrap;gap:4px 8px;color:#cfcfcf;font-size:11px;line-height:1.25}
+.playerDetailsV299 span{white-space:nowrap}
+.playerDetailsV299 b{color:#f2f2f2;font-weight:700}
+.playerHandV299{font-size:11px;text-align:right;color:#cfcfcf;align-self:start;padding-top:2px}
+.playerCard .playerRow{grid-template-columns:35px minmax(0,1fr) 58px;align-items:start}
+
+
+/* v2.9.9.1 - full database card and locked database roster player */
+.playerDbRowFullV2991{align-items:start;padding:10px 3px}
+.playerDbRowFullV2991 .playerDbIdentityV297>b{font-size:14px;margin-bottom:5px}
+.playerDbFullDetailsV2991,.playerDetailsFullV2991{display:flex;flex-wrap:wrap;gap:3px 9px;font-size:10px;line-height:1.35;color:#cbd5e1}
+.playerDbFullDetailsV2991 span,.playerDetailsFullV2991 span{white-space:normal}
+.playerDbFullDetailsV2991 b,.playerDetailsFullV2991 b{color:#fff;font-weight:800}
+.databasePlayerCardV2991{border-color:rgba(253,90,30,.45)}
+.databasePlayerCardV2991 .actions button:first-child{background:#1f2937;color:#fff;border:1px solid rgba(253,90,30,.55)}
+#rosterScreen input:disabled,#rosterScreen select:disabled{opacity:.72;color:#cbd5e1;background:#111827}
+@media(max-width:390px){.playerDbRowFullV2991{grid-template-columns:minmax(0,1fr) 72px}.playerDbFullDetailsV2991{font-size:9.5px}}
+
+/* v2.9.9.2 - database cards without Batea/Lanza and true number-only editing */
+.databasePlayerRowV2992{grid-template-columns:35px minmax(0,1fr)!important}
+.databasePlayerCardV2991 .actions button:first-child{font-weight:800}
+
+
+/* ================= EASY TAGG v2.9.11 UI FLOW FIXES ================= */
+/* Ajustes: crear juego arriba, centrado, y versión oculta. */
+#setupScreen .setupVersionHiddenV2911{display:none!important}
+#setupScreen .setupCreateCardV2911{max-width:390px!important;margin:4px auto 8px!important;text-align:center!important}
+#setupScreen .setupCreateCardV2911 h2{text-align:center!important;margin:3px 0 7px!important;color:var(--orange)!important}
+#setupScreen .setupCreateCardV2911 input,#setupScreen .setupCreateCardV2911 select,#setupScreen .setupCreateCardV2911 button{width:100%!important;text-align:center!important}
+#setupScreen .setupHeroV2911{max-width:390px!important;margin:0 auto 6px!important;text-align:center!important}
+
+/* Alerta propia de Easy Tagg en lugar de alerta nativa del teléfono. */
+.appAlertSheetV2911{left:50%!important;right:auto!important;bottom:50%!important;transform:translate(-50%,50%)!important;width:min(360px,calc(100vw - 28px))!important;max-height:none!important;overflow:hidden!important;text-align:center!important;border:1px solid rgba(253,90,30,.7)!important;box-shadow:0 18px 60px rgba(0,0,0,.65)!important}
+.appAlertSheetV2911 .sheetHead h2{width:100%;text-align:left!important;margin:4px 0!important}
+.appAlertMessageV2911{margin:10px 2px 14px!important;color:#f8fafc!important;font-size:14px!important;line-height:1.45!important;text-align:center!important}
+.appAlertOkV2911{width:100%!important;background:linear-gradient(135deg,#ff3b0a,var(--orange))!important;color:#fff!important;font-weight:900!important}
+
+/* Resultado/contacto sin scroll: controles compactos y campo visible completo. */
+#detailSheet{top:8px!important;bottom:8px!important;max-height:calc(100dvh - 16px)!important;overflow:hidden!important;display:flex;flex-direction:column;padding:7px!important}
+#detailSheet.hidden{display:none!important}
+#detailSheet .sheetHead{flex:0 0 auto!important}
+#detailSheet h3{margin:2px 0 3px!important;font-size:10px!important}
+#detailSheet .choiceGrid{gap:4px!important;flex:0 0 auto!important}
+#detailSheet .choiceGrid button{min-height:32px!important;padding:4px!important;margin:0!important;font-size:11px!important}
+#detailSheet .fieldLocationWrapV276{flex:1 1 auto!important;min-height:170px!important;max-height:42dvh!important;margin:4px 0!important;display:flex!important;align-items:center!important;justify-content:center!important}
+#detailSheet .fieldLocationWrapV276 img{width:100%!important;height:100%!important;object-fit:contain!important}
+#detailSheet .fieldLocationActionsV276{display:grid!important;grid-template-columns:1fr auto!important;align-items:center!important;gap:5px!important;margin:2px 0 4px!important;flex:0 0 auto!important}
+#detailSheet .fieldLocationActionsV276 span{font-size:10px!important;text-align:left!important}
+#detailSheet .fieldLocationActionsV276 button{min-height:30px!important;padding:4px 7px!important;margin:0!important;font-size:10px!important}
+#detailSheet #saveDetail{min-height:36px!important;padding:5px!important;margin:0!important;flex:0 0 auto!important}
+@media(max-height:700px){#detailSheet .fieldLocationWrapV276{min-height:135px!important;max-height:35dvh!important}}
+
+/* ================= v2.9.9.5 database number + batting-side modal ================= */
+.dbPlayerQuickEditOverlayV2995{position:fixed;inset:0;z-index:10050;background:rgba(0,0,0,.78);display:flex;align-items:center;justify-content:center;padding:16px}
+.dbPlayerQuickEditOverlayV2995.hidden{display:none!important}
+.dbPlayerQuickEditCardV2995{width:min(390px,100%);background:#111827;border:1px solid rgba(253,90,30,.75);border-radius:18px;padding:15px;box-shadow:0 22px 70px rgba(0,0,0,.7)}
+.dbPlayerQuickEditHeadV2995{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:13px}
+.dbPlayerQuickEditHeadV2995 small{color:#94a3b8;font-size:10px;text-transform:uppercase;letter-spacing:.08em}
+.dbPlayerQuickEditHeadV2995 h2{margin:2px 0 0;color:#fff;font-size:18px;line-height:1.15}
+#dbPlayerQuickEditCloseV2995{width:35px;height:35px;padding:0;margin:0;border-radius:10px;background:#1f2937;color:#fff;font-size:23px}
+.dbPlayerQuickEditLabelV2995{display:block;color:#cbd5e1;font-size:12px;font-weight:800;margin:10px 0 6px}
+.dbPlayerQuickEditNumV2995{width:100%;min-height:46px;text-align:center;font-size:20px;font-weight:900;background:#0b1220;color:#fff;border:1px solid #334155;border-radius:11px}
+.dbPlayerBatChoicesV2995{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.dbPlayerBatChoicesV2995 button{min-height:74px;margin:0;padding:8px 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:#1f2937;color:#fff;border:1px solid #334155;border-radius:12px}
+.dbPlayerBatChoicesV2995 button b{font-size:23px;line-height:1}
+.dbPlayerBatChoicesV2995 button span{font-size:9px;color:#cbd5e1;text-align:center}
+.dbPlayerBatChoicesV2995 button.selected{background:rgba(253,90,30,.18);border-color:var(--orange);box-shadow:inset 0 0 0 1px var(--orange)}
+.dbPlayerQuickEditHintV2995{font-size:10px;line-height:1.4;color:#94a3b8;margin:11px 2px}
+.dbPlayerQuickEditActionsV2995{display:grid;grid-template-columns:1fr 1.3fr;gap:8px;margin-top:8px}
+.dbPlayerQuickEditActionsV2995 button{margin:0;min-height:43px}
+#dbPlayerQuickEditCancelV2995{background:#1f2937;color:#fff}
+#dbPlayerQuickEditSaveV2995{background:linear-gradient(135deg,#ff3b0a,var(--orange));color:#fff;font-weight:900}
+
+
+/* Easy Tagg v2.9.9.8 */
+.trajectoryGridV2998{grid-template-columns:repeat(3,1fr)!important;gap:8px!important}
+#detailSheet{max-height:92vh;overflow-y:auto;padding-bottom:14px}
+#detailSheet h3{margin:9px 0 6px}
+#detailSheet .choiceGrid button{min-height:42px}
+.fieldButtonV2998,.inningButtonV2998{width:100%;min-height:42px;border-radius:10px;font-weight:800}
+.inningButtonV2998{min-width:48px;font-size:20px;padding:4px 8px}
+.numberGridV2998{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.numberGridV2998 button{min-height:48px;font-size:18px;font-weight:900}
+.dateGridV2998{display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:8px;margin-bottom:12px}
+.dateGridV2998 select{min-height:48px;font-size:17px}
+.compactPickerSheetV2998{max-height:82vh;overflow-y:auto}
+.scrollPlayerListV2998,.scrollLineupV2998{max-height:58vh;overflow-y:auto;overscroll-behavior:contain;padding-right:3px}
+#batterList .lineupActionsCleanV241{grid-template-columns:1fr!important}
+#batterList .lineupPlayerCleanV241{align-items:center}
+#gameType{text-transform:lowercase}
+
+
+/* Easy Tagg v2.9.9.9 */
+#saveEditedTag{background:#f47a20!important;color:#fff!important;border-color:#f47a20!important;font-weight:800;}
+.historyValueGridV2999{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:8px 0 4px;}
+.historyValueGridV2999 button{min-height:48px;font-weight:800;}
+.historyValueGridV2999 button.selected{outline:2px solid #f47a20;}
+.lineupPlayerCleanV241,.lineupPlayerCleanV255{touch-action:none;}
+.lineupDragV2999{opacity:.55;transform:scale(.98);}
+.lineupDropV2999{border-top:3px solid #f47a20!important;}
+
+/* Easy Tagg v2.9.10 */
+#editTagSheet{max-height:88vh;overflow-y:auto;}
+#editTagSheet #saveEditedTag{position:sticky;bottom:0;z-index:3;box-shadow:0 -8px 18px rgba(0,0,0,.28);}
+.lineupHandleListV2910{max-height:62vh!important;overflow-y:auto!important;overscroll-behavior:contain;}
+.lineupHandleListV2910 .lineupPlayerCleanV241,.lineupHandleListV2910 .lineupPlayerCleanV255{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 54px;align-items:stretch;touch-action:pan-y;min-height:76px;}
+.lineupHandleListV2910 .lineupMainCleanV241,.lineupHandleListV2910 .lineupMainCleanV255{min-width:0;}
+.lineupHandleV2910{border:0!important;background:transparent!important;padding:0!important;margin:0!important;border-radius:0!important;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;touch-action:none;cursor:grab;box-shadow:none!important;}
+.lineupHandleV2910:active{cursor:grabbing;}
+.lineupHandleV2910 span{display:block;width:25px;height:3px;border-radius:4px;background:#aeb4ba;pointer-events:none;}
+.lineupDragV2999{opacity:.72!important;transform:scale(.985)!important;box-shadow:0 10px 26px rgba(0,0,0,.4)!important;border-color:#f47a20!important;}
+
+/* Easy Tagg v2.9.10.1 - reliable lineup handle drag on Android WebView */
+body.lineupDraggingV2910{user-select:none;-webkit-user-select:none;overflow:hidden;}
+body.lineupDraggingV2910 .lineupHandleListV2910{overscroll-behavior:none;}
+.lineupHandleV2910{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
+
+/* Easy Tagg v2.9.10.2 - performance + compact contact flow */
+#detailSheet{max-height:94vh!important;overflow-y:auto!important;padding-bottom:10px!important;}
+#detailSheet .sheetHead{margin-bottom:3px!important;}
+#detailSheet h3{margin:7px 0 5px!important;font-size:15px!important;line-height:1.1!important;}
+#detailSheet .choiceGrid{gap:6px!important;margin-bottom:2px!important;}
+#detailSheet .choiceGrid button{min-height:39px!important;padding:7px 5px!important;}
+#hitLocationTitleV276{margin-top:6px!important;margin-bottom:3px!important;}
+.fieldLocationWrapV276{margin:3px auto 3px!important;max-height:38vh!important;width:min(100%,430px)!important;}
+.fieldLocationWrapV276 img{max-height:38vh!important;object-fit:contain!important;}
+.fieldLocationActionsV276{gap:3px!important;margin-bottom:5px!important;}
+.fieldLocationActionsV276 span{font-size:11px!important;line-height:1.15!important;}
+.fieldLocationActionsV276 button{min-height:31px!important;padding:4px 8px!important;font-size:11px!important;}
+#saveDetail{min-height:42px!important;margin-top:3px!important;}
+.lineupDragV2999{transition:none!important;will-change:transform;}
+.lineupHandleListV2910 .lineupPlayerCleanV241,.lineupHandleListV2910 .lineupPlayerCleanV255{contain:layout style;}
+
+
+/* Easy Tagg v2.9.10.3 - MLB-style strike zone + edit cancel + jersey numbers */
+.strikeBox{box-sizing:border-box!important;}
+#editTagSheet .sheetHead .close{display:flex!important;align-items:center;justify-content:center;width:38px;height:38px;min-width:38px;padding:0!important;font-size:28px!important;line-height:1!important;}
+.lineupJerseyV29103{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:25px;padding:0 7px;margin-right:7px;border-radius:8px;background:#FD5A1E;color:#111;font-size:13px;font-weight:1000;vertical-align:middle;}
+.lineupNameTextV29103{vertical-align:middle;}
+
+
+/* Easy Tagg v2.9.10.4 - vertical MLB zone + compact lineup + controlled autoscroll */
+.strikeBox{
+  left:38%!important;
+  top:20%!important;
+  width:24%!important;
+  height:56%!important;
+  border-radius:1px!important;
+}
+.lineupHandleListV2910{
+  max-height:66vh!important;
+  scroll-behavior:auto!important;
+}
+.lineupHandleListV2910 .lineupPlayerCleanV241,
+.lineupHandleListV2910 .lineupPlayerCleanV255{
+  min-height:56px!important;
+  margin:3px 0!important;
+  border-radius:10px!important;
+  grid-template-columns:minmax(0,1fr) 46px!important;
+}
+.lineupHandleListV2910 .lineupMainCleanV241,
+.lineupHandleListV2910 .lineupMainCleanV255{
+  padding:7px 8px!important;
+  gap:7px!important;
+  grid-template-columns:35px minmax(0,1fr) 48px!important;
+}
+.lineupHandleListV2910 .lineupOrderCleanV241,
+.lineupHandleListV2910 .lineupOrderCleanV255{
+  font-size:16px!important;
+}
+.lineupHandleListV2910 .lineupNameCleanV241,
+.lineupHandleListV2910 .lineupNameCleanV255{
+  font-size:15px!important;
+  line-height:1.08!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.lineupHandleListV2910 .lineupSubCleanV241,
+.lineupHandleListV2910 .lineupSubCleanV255{
+  font-size:11px!important;
+  line-height:1.05!important;
+  margin-top:1px!important;
+}
+.lineupHandleV2910{gap:4px!important;}
+.lineupHandleV2910 span{width:22px!important;height:2px!important;}
+.lineupJerseyV29103{
+  min-width:29px!important;
+  height:21px!important;
+  padding:0 5px!important;
+  margin-right:5px!important;
+  border-radius:6px!important;
+  font-size:11px!important;
+}
+
+
+/* Easy Tagg v2.9.10.5 - quick jersey number editor + AP history */
+.lineupJerseyV29103,.quickPitcherNumberV29105{cursor:pointer;touch-action:manipulation;}
+.lineupJerseyV29103:active,.quickPitcherNumberV29105:active{transform:scale(.94);}
+#pitcherList .quickPitcherNumberV29105{display:inline-flex;align-items:center;justify-content:center;min-width:38px;height:30px;border-radius:8px;background:#FD5A1E;color:#111;font-weight:1000;}
+.quickNumberSheetV29105{max-width:420px!important;}
+.quickNumberPlayerV29105{margin:4px 0 12px;font-size:17px;font-weight:900;color:#fff;}
+#quickNumberInputV29105{text-align:center;font-size:28px!important;font-weight:1000!important;letter-spacing:2px;}
+#quickNumberSaveV29105{margin-top:10px!important;min-height:44px;font-weight:1000;}
+.tagCardV21 .tagTimeV21:last-child{font-weight:1000;color:#FD5A1E;white-space:nowrap;}
+
+/* Easy Tagg v2.9.10.6 */
+.historyAPV29106{font-weight:800;color:#f97316;white-space:nowrap;font-size:.92em}
+
+/* Easy Tagg v2.9.10.7 */
+.historyAPV29107{color:#FD5A1E;font-weight:1000;white-space:nowrap;}
+
+/* Easy Tagg v2.9.10.10: centered game date */
+#gdate{ text-align:center; text-align-last:center; }
+.dateGridV2998 select{ text-align:center; text-align-last:center; }
+
+/* Easy Tagg v2.9.10.11: exact lowercase activity options + centered native date */
+#gdate{width:100%;text-align:center!important;text-align-last:center!important;}
+#gdate::-webkit-date-and-time-value{text-align:center!important;margin:auto!important;}
+#gdate::-webkit-datetime-edit{display:flex;justify-content:center;width:100%;}
+#gdate::-webkit-calendar-picker-indicator{position:absolute;right:14px;}
+.setupCreateCardV2911{position:relative;}
+
+
+/* Easy Tagg v2.9.10.16 - Quick Tag layout */
+#tagScreen .quickGrid{grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:repeat(2,auto)!important;}
+#tagScreen .quickGrid #resultBtn{grid-column:3!important;grid-row:1 / span 2!important;height:100%!important;min-height:77px!important;}
+#tagScreen .quickGrid button[data-result="Swing & Miss"]{grid-column:1!important;grid-row:2!important;}
+#tagScreen .quickGrid button[data-result="Foul"]{grid-column:2!important;grid-row:2!important;}
+
+/* EasyTagg v2.9.10.17 compact cropped field */
+#detailSheet .fieldLocationWrapV276{margin-top:4px!important;}
+#detailSheet #hitLocationTitleV276{margin-top:3px!important;margin-bottom:2px!important;}
+
+/* Easy Tagg v2.9.10.22 - reliable long-lineup scrolling and pitcher picker */
+#batterSheet.longPickerSheetV291022,
+#pitcherSheet.longPickerSheetV291022{
+  top:8px!important;
+  bottom:8px!important;
+  max-height:calc(100dvh - 16px)!important;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
+  overscroll-behavior:contain!important;
+}
+#batterSheet.longPickerSheetV291022.hidden,
+#pitcherSheet.longPickerSheetV291022.hidden{display:none!important;}
+#batterSheet.longPickerSheetV291022 .sheetHead,
+#pitcherSheet.longPickerSheetV291022 .sheetHead,
+#batterSheet.longPickerSheetV291022 .dualLineupTabsV27,
+#batterSheet.longPickerSheetV291022 .lineupToolsCleanV255{
+  flex:0 0 auto!important;
+}
+#batterList.longPickerListV291022,
+#pitcherList.longPickerListV291022{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior-y:contain!important;
+  touch-action:pan-y!important;
+  padding-right:3px!important;
+  padding-bottom:18px!important;
+}
+#batterList.longPickerListV291022 .lineupPlayerCleanV241,
+#batterList.longPickerListV291022 .lineupPlayerCleanV255{
+  touch-action:pan-y!important;
+}
+#batterList.longPickerListV291022 .lineupHandleV2910{
+  touch-action:none!important;
+}
+#pitcherList.longPickerListV291022 .listBtn{
+  width:100%!important;
+  flex:0 0 auto!important;
+}
+
+/* Easy Tagg v2.9.10.25 - direct lineup remove button beside drag handle */
+.lineupHandleListV2910 .lineupPlayerCleanV241,
+.lineupHandleListV2910 .lineupPlayerCleanV255{
+  grid-template-columns:minmax(0,1fr) 38px 46px!important;
+}
+.lineupXButtonV291026{
+  position:relative!important;
+  z-index:8!important;
+  align-self:center!important;
+  justify-self:center!important;
+  width:32px!important;
+  height:32px!important;
+  min-width:32px!important;
+  min-height:32px!important;
+  margin:0!important;
+  padding:0 0 2px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  color:#FD5A1E!important;
+  font-size:26px!important;
+  font-weight:900!important;
+  line-height:1!important;
+  touch-action:manipulation!important;
+  box-shadow:none!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+}
+.lineupXButtonV291026 span{
+  display:block!important;
+  color:#FD5A1E!important;
+  font-size:26px!important;
+  font-weight:900!important;
+  line-height:1!important;
+  pointer-events:none!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+.lineupXButtonV291026:active{transform:scale(.88);background:transparent!important;color:#ff7a45!important;}
+
+/* Easy Tagg v2.9.10.28 - current batter/pitcher and inline hand editor */
+#batterList .currentPlayerV291028,
+#pitcherList .currentPlayerV291028{
+  border-color:#FD5A1E!important;
+  background:linear-gradient(90deg,rgba(253,90,30,.28),rgba(253,90,30,.10))!important;
+  box-shadow:inset 4px 0 0 #FD5A1E,0 0 15px rgba(253,90,30,.22)!important;
+}
+#pitcherList .listBtn.currentPlayerV291028{color:#fff!important;}
+.inlineHandBadgeV291028{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:auto!important;
+  min-width:34px!important;
+  height:24px!important;
+  min-height:24px!important;
+  margin:0 6px 0 0!important;
+  padding:0 7px!important;
+  border:1px solid #FD5A1E!important;
+  border-radius:7px!important;
+  background:#050505!important;
+  color:#FD5A1E!important;
+  font-size:12px!important;
+  font-weight:1000!important;
+  line-height:1!important;
+  touch-action:manipulation!important;
+  position:relative!important;
+  z-index:9!important;
+  box-shadow:none!important;
+}
+.inlineHandBadgeV291028:active{transform:scale(.93);background:#151515!important;}
+.currentLabelV291028{color:#FD5A1E;font-size:10px;font-weight:1000;letter-spacing:.04em;vertical-align:middle;}
+#pitcherList .listBtn small{display:flex!important;align-items:center!important;justify-content:flex-end!important;}
+#pitcherList .inlineHandBadgeV291028{margin:0!important;min-width:42px!important;}
+.quickHandSheetV291028{max-width:420px!important;}
+.quickHandPlayerV291028{margin:4px 0 12px;font-size:17px;font-weight:900;color:#fff;}
+.quickHandChoicesV291028{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;}
+.quickHandChoicesV291028 button{min-height:54px!important;margin:0!important;background:#050505!important;color:#FD5A1E!important;border:1px solid #FD5A1E!important;font-size:18px!important;font-weight:1000!important;}
+.quickHandChoicesV291028 button.selected{background:#FD5A1E!important;color:#111!important;}
+
+/* Easy Tagg v2.9.10.30 - remove Select/Actual and give names the freed space */
+.lineupHandleListV2910 .lineupMainCleanV241,
+.lineupHandleListV2910 .lineupMainCleanV255{
+  grid-template-columns:35px minmax(0,1fr)!important;
+}
+.hiddenSelectV291030{display:none!important;}
+.currentLabelV291028{display:none!important;}
+.lineupHandleListV2910 .lineupNameCleanV241,
+.lineupHandleListV2910 .lineupNameCleanV255{
+  width:100%!important;
+  max-width:none!important;
+}
+.lineupJerseyV29103,
+.inlineHandBadgeV291028{
+  box-sizing:border-box!important;
+  min-width:38px!important;
+  height:24px!important;
+  min-height:24px!important;
+  padding:0 7px!important;
+  border-radius:7px!important;
+  font-size:12px!important;
+  line-height:1!important;
+}
+
+/* Easy Tagg v2.9.10.31 - internal Runner Event and roster pickers */
+.internalFieldButtonV291031{width:100%!important;min-height:44px!important;margin:4px 0 8px!important;background:#0b0b0b!important;color:#FD5A1E!important;border:1px solid #FD5A1E!important;border-radius:10px!important;font-weight:1000!important;}
+.pickerSheetV291031{max-height:86vh!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;}
+.pickerSheetV291031.hidden{display:none!important;}
+.pickerListV291031{overflow-y:auto!important;min-height:0!important;max-height:66vh!important;-webkit-overflow-scrolling:touch!important;}
+.pickerListV291031 .listBtn{width:100%!important;margin:5px 0!important;}
+.pickerListV291031 .listBtn.selected{border-color:#FD5A1E!important;background:rgba(253,90,30,.22)!important;}
+.rosterPickerChoicesV291031{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;}
+.rosterPickerChoicesV291031 button{min-height:54px!important;margin:0!important;background:#080808!important;color:#FD5A1E!important;border:1px solid #FD5A1E!important;font-weight:1000!important;}
+.rosterPickerChoicesV291031 button.selected{background:#FD5A1E!important;color:#111!important;}
+.runnerMiniRowV295{grid-template-columns:minmax(0,1fr) auto auto!important;}
+.runnerEditV291031{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:auto!important;min-width:54px!important;min-height:30px!important;padding:5px 8px!important;margin:0!important;background:#111!important;color:#FD5A1E!important;border:1px solid #FD5A1E!important;border-radius:8px!important;font-size:10px!important;}
+#runnerPlayerV294,#role,#bat,#thr{display:none!important;}
+
+/* Easy Tagg v2.9.10.32 - every visible selector uses the app interface */
+.nativeControlHiddenV291032{display:none!important;}
+.appSelectButtonV291032{
+  width:100%!important;min-height:46px!important;margin:4px 0!important;padding:7px 38px 7px 11px!important;position:relative!important;
+  display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;
+  background:linear-gradient(135deg,#090909,#151515)!important;color:#fff!important;border:1px solid rgba(253,90,30,.82)!important;border-radius:12px!important;text-align:left!important;box-shadow:inset 3px 0 0 #FD5A1E!important;
+}
+.appSelectButtonV291032 span{font-size:9px!important;line-height:1!important;color:#FD5A1E!important;font-weight:1000!important;letter-spacing:.06em;text-transform:uppercase!important;}
+.appSelectButtonV291032 b{display:block!important;max-width:100%!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;font-size:13px!important;line-height:1.2!important;color:#fff!important;margin-top:4px!important;}
+.appSelectButtonV291032 i{position:absolute!important;right:12px!important;top:50%!important;transform:translateY(-50%)!important;color:#FD5A1E!important;font-size:18px!important;font-style:normal!important;}
+header #gameSelectButtonV291032{margin:0!important;min-height:42px!important;max-width:100%!important;}
+.genericSelectChoicesV291032{display:grid;grid-template-columns:1fr;gap:7px;max-height:65vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.genericSelectChoicesV291032 button{min-height:46px!important;margin:0!important;background:#0c0c0c!important;color:#fff!important;border:1px solid #333!important;border-radius:10px!important;text-align:left!important;padding:10px 12px!important;}
+.genericSelectChoicesV291032 button.selected{background:rgba(253,90,30,.22)!important;border-color:#FD5A1E!important;color:#FD5A1E!important;}
+.datePickerSheetV291032{max-height:92vh!important;overflow-y:auto!important;}
+.datePickerSectionV291032{margin:8px 0 12px;}.datePickerSectionV291032>small{display:block;color:#FD5A1E;font-weight:1000;font-size:10px;margin-bottom:5px;}
+.dateChoiceGridV291032{display:grid;gap:5px;max-height:145px;overflow-y:auto;}.dateChoiceGridV291032.month{grid-template-columns:repeat(6,1fr)}.dateChoiceGridV291032.day{grid-template-columns:repeat(7,1fr)}.dateChoiceGridV291032.year{grid-template-columns:repeat(4,1fr)}
+.dateChoiceGridV291032 button{min-height:35px!important;margin:0!important;padding:4px!important;background:#111!important;color:#fff!important;border:1px solid #333!important;border-radius:8px!important;}.dateChoiceGridV291032 button.selected{background:#FD5A1E!important;color:#111!important;border-color:#FD5A1E!important;}
+.saveDateV291032{width:100%!important;min-height:44px!important;background:#FD5A1E!important;color:#111!important;font-weight:1000!important;}
+#rosterScreen .row3{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important;align-items:stretch!important;}
+.rosterChoiceCardV291032{min-height:70px!important;margin:0!important;padding:9px 25px 9px 9px!important;border-radius:12px!important;background:linear-gradient(145deg,#070707,#181818)!important;border:1px solid rgba(253,90,30,.72)!important;box-shadow:inset 0 -3px 0 rgba(253,90,30,.20)!important;}
+.rosterChoiceCardV291032 span{display:block!important;color:#FD5A1E!important;font-size:8px!important;line-height:1.15!important;letter-spacing:.04em!important;}
+.rosterChoiceCardV291032 b{display:block!important;color:#fff!important;font-size:15px!important;margin-top:7px!important;white-space:normal!important;}
+.rosterChoiceCardV291032 i{right:8px!important;font-size:15px!important;}
+@media(max-width:390px){#rosterScreen .row3{grid-template-columns:1fr!important}.rosterChoiceCardV291032{min-height:58px!important;}}
+
+/* Easy Tagg v2.9.10.33 - roster pair layout and highlighted save changes */
+#rosterScreen .row3{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:8px!important;
+}
+#rosterScreen .rosterChoiceCardV291032{
+  min-width:0!important;
+  min-height:64px!important;
+  height:64px!important;
+  padding:8px 24px 8px 9px!important;
+  border-radius:13px!important;
+  box-shadow:inset 0 -3px 0 rgba(253,90,30,.24),0 5px 12px rgba(0,0,0,.22)!important;
+}
+#rosterScreen .rosterChoiceCardV291032 span{font-size:7.5px!important;line-height:1.15!important;}
+#rosterScreen .rosterChoiceCardV291032 b{font-size:14px!important;line-height:1.1!important;margin-top:6px!important;}
+.saveChangePrimaryV291033,
+#saveEditedTag{
+  background:linear-gradient(135deg,#ff7a24,#FD5A1E)!important;
+  color:#111!important;
+  border-color:#ff9a66!important;
+  font-weight:1000!important;
+  box-shadow:0 5px 16px rgba(253,90,30,.30)!important;
+}
+
+/* Easy Tagg v2.9.10.34 - database import summary and last update */
+.playerDbUpdateStatusV298{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important;}
+.playerDbUpdateStatusV298>b{display:flex!important;align-items:center!important;justify-content:center!important;min-height:42px!important;padding:7px!important;border-radius:9px!important;background:#111!important;border:1px solid #334155!important;color:#fff!important;text-align:center!important;font-size:10px!important;}
+.playerDbUpdateStatusV298.ok>b{border-color:#22c55e!important;color:#86efac!important;}
+.playerDbUpdateStatusV298.warnV291034>b:last-child{border-color:#f59e0b!important;color:#fbbf24!important;}
+.playerDbUpdateStatusV298.err{grid-template-columns:1fr!important;}.playerDbUpdateStatusV298.err>b{border-color:#ef4444!important;color:#fca5a5!important;}
+.playerDbLastUpdateV291034{display:flex;flex-direction:column;gap:3px;margin-top:3px;padding:8px 10px;border-radius:9px;background:#0b0b0b;border-left:3px solid #FD5A1E;}
+.playerDbLastUpdateV291034 span{color:#FD5A1E;font-size:8px;font-weight:1000;letter-spacing:.06em;}.playerDbLastUpdateV291034 b{color:#fff;font-size:11px;}
+@media(max-width:390px){.playerDbUpdateStatusV298{grid-template-columns:1fr!important}.playerDbUpdateStatusV298>b{min-height:34px!important;}}
+
+/* Easy Tagg v2.9.10.36 - successful database summary fades, last update remains */
+.playerDbUpdateStatusV298{opacity:1;transition:opacity .5s ease,transform .5s ease;}
+.playerDbUpdateStatusV298.fadeOutV291036{opacity:0!important;transform:translateY(-4px);pointer-events:none;}
+.playerDbLastUpdateV291034{opacity:1!important;transform:none!important;}
+
+/* Easy Tagg v2.9.10.37 - polished English instructions and messages */
+.hint,.compactHintV294,.runnerMiniEmptyV295,.playerDbEmptyV297{margin:7px 0 10px!important;padding:9px 10px!important;border-radius:10px!important;background:linear-gradient(135deg,rgba(253,90,30,.10),rgba(15,23,42,.75))!important;border:1px solid rgba(253,90,30,.30)!important;border-left:3px solid #FD5A1E!important;color:#dbe4ee!important;font-size:11px!important;line-height:1.42!important;text-align:left!important;}
+.sheetHead{padding-bottom:7px!important;margin-bottom:7px!important;border-bottom:1px solid rgba(253,90,30,.25)!important;}
+.sheetHead h2{text-transform:uppercase!important;letter-spacing:.045em!important;font-weight:1000!important;}
+.appAlertSheetV2911{border:1px solid #FD5A1E!important;background:linear-gradient(155deg,#080808,#151515)!important;}
+.appAlertMessageV2911{padding:11px!important;border-radius:10px!important;background:rgba(255,255,255,.045)!important;border-left:3px solid #FD5A1E!important;}
+#csvStatus:not(:empty),.playerDbUpdateStatusV298:not(:empty){padding:8px!important;border-radius:9px!important;background:#0b0b0b!important;border:1px solid rgba(253,90,30,.28)!important;}
+
+/* Easy Tagg v2.9.10.38 - stable two-line lineup names and compact exports */
+.lineupHandleListV2910 .lineupNameCleanV241,.lineupHandleListV2910 .lineupNameCleanV255{display:flex!important;align-items:center!important;min-width:0!important;height:30px!important;overflow:hidden!important;}
+.lineupFullNameV291038{display:flex!important;flex:1 1 auto!important;min-width:0!important;height:30px!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;line-height:1!important;overflow:hidden!important;}
+.lineupFirstNameV291038,.lineupLastNameV291038{display:block!important;width:100%!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;}
+.lineupFirstNameV291038{font-size:13px!important;font-weight:900!important;color:#fff!important;}.lineupLastNameV291038{font-size:12px!important;font-weight:1000!important;color:#FD5A1E!important;margin-top:2px!important;}
+.lineupHandleListV2910 .lineupPlayerCleanV241,.lineupHandleListV2910 .lineupPlayerCleanV255{min-height:60px!important;}
+.exportToolsV291038{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;}
+.exportToolsV291038 .exportButtonV291038{width:100%!important;min-height:54px!important;margin:0!important;padding:8px!important;border-radius:11px!important;background:#111!important;color:#fff!important;border:1px solid #374151!important;font-size:11px!important;line-height:1.2!important;}
+.exportToolsV291038 .reportButtonV291038{border-color:#FD5A1E!important;background:linear-gradient(145deg,rgba(253,90,30,.18),#111)!important;color:#fff!important;}
+.exportToolsV291038 #csvStatus{grid-column:1/-1!important;margin:0!important;}
+
+/* Easy Tagg v2.9.10.39 - highlighted number save and logo-only New Game */
+.numberSavePrimaryV291039,
+#quickNumberSaveV29105,
+#dbPlayerQuickEditSaveV2995{
+  background:linear-gradient(135deg,#ff7a24,#FD5A1E)!important;
+  color:#111!important;
+  border:1px solid #ff9a66!important;
+  font-weight:1000!important;
+  box-shadow:0 5px 16px rgba(253,90,30,.34)!important;
+}
+#setupScreen .setupHeroV2911.logoOnlyV291039{display:flex!important;align-items:center!important;justify-content:center!important;min-height:190px!important;padding:18px!important;}
+#setupScreen .setupHeroV2911.logoOnlyV291039 .heroLogo{width:min(180px,48vw)!important;height:min(180px,48vw)!important;border-width:3px!important;box-shadow:0 10px 35px rgba(253,90,30,.30)!important;}
+#setupScreen .setupHeroV2911 .hiddenBrandTextV291039{display:none!important;}
+
+/* Easy Tagg v2.9.10.40 - top History exports emphasized, larger stable lineup names */
+.exportToolsV291038 .historyPrimaryV291040{
+  background:linear-gradient(145deg,rgba(253,90,30,.28),#111)!important;
+  border-color:#FD5A1E!important;
+  color:#fff!important;
+  box-shadow:0 5px 15px rgba(253,90,30,.22)!important;
+}
+.exportToolsV291038 #exportBatterReportXls,
+.exportToolsV291038 #exportPitcherRecapPdf{
+  background:#111!important;
+  border-color:#374151!important;
+  box-shadow:none!important;
+}
+.lineupHandleListV2910 .lineupNameCleanV241,
+.lineupHandleListV2910 .lineupNameCleanV255,
+.lineupFullNameV291038{height:38px!important;}
+.lineupFirstNameV291038{font-size:16px!important;line-height:17px!important;}
+.lineupLastNameV291038{font-size:15px!important;line-height:16px!important;margin-top:1px!important;}
+
+/* Easy Tagg v2.9.10.41 - number/name and hand/last-name compact rows */
+.lineupHandleListV2910 .lineupFirstRowV291041,
+.lineupHandleListV2910 .lineupLastRowV291041{
+  display:flex!important;
+  align-items:center!important;
+  width:100%!important;
+  min-width:0!important;
+  height:25px!important;
+  margin:0!important;
+  overflow:hidden!important;
+}
+.lineupHandleListV2910 .lineupFirstOnlyV291041{display:block!important;height:auto!important;min-width:0!important;overflow:hidden!important;}
+.lineupHandleListV2910 .lineupFirstOnlyV291041 .lineupFirstNameV291038{font-size:17px!important;line-height:20px!important;}
+.lineupHandleListV2910 .lineupLastInlineV291041{
+  display:block!important;
+  flex:1 1 auto!important;
+  width:auto!important;
+  min-width:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  color:#fff!important;
+  font-size:16px!important;
+  line-height:20px!important;
+  font-weight:1000!important;
+}
+.lineupHandleListV2910 .lineupLastRowV291041 .inlineHandBadgeV291028{flex:0 0 38px!important;margin-right:6px!important;}
+
+/* Consistent application headings */
+.appHeadingV291041{
+  position:relative!important;
+  margin:0 0 12px!important;
+  padding:9px 12px 9px 15px!important;
+  border:1px solid rgba(253,90,30,.34)!important;
+  border-left:4px solid #FD5A1E!important;
+  border-radius:10px!important;
+  background:linear-gradient(100deg,rgba(253,90,30,.17),rgba(12,12,12,.72))!important;
+  color:#fff!important;
+  font-size:15px!important;
+  line-height:1.15!important;
+  font-weight:1000!important;
+  letter-spacing:.065em!important;
+  text-transform:uppercase!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+.sheetHead>.appHeadingV291041{flex:1!important;margin:0!important;}
+
+/* Easy Tagg v2.9.10.42 - preserve the original compact Quick Tag heading */
+#tagScreen .card>h3{
+  margin:0 0 8px!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:none!important;
+  box-shadow:none!important;
+  color:#FD5A1E!important;
+  font-size:11px!important;
+  line-height:normal!important;
+  letter-spacing:0!important;
+  text-align:center!important;
+}
+#editPitchTypeButtonV2999{border-color:#FD5A1E!important;color:#FD5A1E!important;background:#090909!important;font-weight:1000!important;}
+
+/* Easy Tagg v2.9.10.44 - online spreadsheet database update */
+.playerDbOnlineUpdateBtnV291044{min-height:48px!important;background:linear-gradient(135deg,#ff7a24,#FD5A1E)!important;color:#111!important;border:1px solid #ff9a66!important;font-weight:1000!important;box-shadow:0 5px 16px rgba(253,90,30,.30)!important;}
+.playerDbOnlineUpdateBtnV291044:disabled{opacity:.68!important;}
+#playerDbUpdateBtnV298{background:#101010!important;color:#fff!important;border-color:#3b4654!important;box-shadow:none!important;}
+.playerDbUpdateStatusV298.onlineLoadingV291044{grid-template-columns:1fr!important;}
+.playerDbUpdateStatusV298.onlineLoadingV291044>b{border-color:#FD5A1E!important;color:#FD5A1E!important;}
+
+/* Easy Tagg v2.9.10.45 - database maintenance lives in New Game */
+.databaseUpdatesCardV291045{border-color:rgba(253,90,30,.48)!important;background:linear-gradient(160deg,#151515,#080808)!important;}
+.databaseUpdatesCardV291045 .playerDbUpdateBoxV298{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;}
+.databaseUpdatesCardV291045 .playerDbUpdateBoxV298>button{width:100%!important;min-width:0!important;margin:0!important;font-size:10px!important;line-height:1.2!important;}
+.databaseUpdatesCardV291045 .playerDbUpdateStatusV298,
+.databaseUpdatesCardV291045 .playerDbLastUpdateV291034{grid-column:1/-1!important;}
+@media(max-width:360px){.databaseUpdatesCardV291045 .playerDbUpdateBoxV298{grid-template-columns:1fr!important}.databaseUpdatesCardV291045 .playerDbUpdateStatusV298,.databaseUpdatesCardV291045 .playerDbLastUpdateV291034{grid-column:1!important}}
+
+/* Easy Tagg v2.9.10.46 - app update checker */
+.appUpdatesCardV291046{border-color:rgba(253,90,30,.48)!important;background:linear-gradient(160deg,#151515,#080808)!important;}
+.appVersionRowV291046{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 11px;margin:5px 0 9px;border-radius:10px;background:#090909;border-left:3px solid #FD5A1E;}
+.appVersionRowV291046 span{color:#9ca3af;font-size:9px;font-weight:1000;letter-spacing:.06em}.appVersionRowV291046 b{color:#fff;font-size:13px;}
+#checkAppUpdateBtnV291046{background:#111!important;color:#fff!important;border-color:#FD5A1E!important;}
+#downloadAppUpdateBtnV291046{background:linear-gradient(135deg,#ff7a24,#FD5A1E)!important;color:#111!important;border-color:#ff9a66!important;box-shadow:0 5px 16px rgba(253,90,30,.30)!important;}
+.appUpdateStatusV291046:not(:empty){margin:8px 0;padding:9px 10px;border-radius:9px;text-align:center;font-size:10px;font-weight:1000;border:1px solid #334155;background:#0a0a0a;}
+.appUpdateStatusV291046.available{color:#FD5A1E;border-color:#FD5A1E}.appUpdateStatusV291046.current{color:#86efac;border-color:#22c55e}.appUpdateStatusV291046.error{color:#fca5a5;border-color:#ef4444}.appUpdateStatusV291046.checking{color:#fbbf24;border-color:#f59e0b;}
+.appUpdateAvailableV291046{margin-top:8px;}
+
+/* ================= EASY TAGG v2.9.10.52 OPTIONAL FIELD + HISTORY DELETE ================= */
+#detailSheet .fieldLocationOptionalV291052{
+  display:block!important;
+  margin:3px 0 5px!important;
+}
+#detailSheet .fieldLocationOptionalV291052 span{
+  display:block!important;
+  text-align:center!important;
+  font-size:11px!important;
+  line-height:1.2!important;
+}
+#historyList .historyDeleteXV291052{
+  position:relative!important;
+  width:30px!important;
+  height:30px!important;
+  min-width:30px!important;
+  min-height:30px!important;
+  padding:0 0 2px!important;
+  margin:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  color:#FD5A1E!important;
+  font-size:25px!important;
+  font-weight:900!important;
+  line-height:1!important;
+  box-shadow:none!important;
+}
+#historyList .historyDeleteXV291052:active{
+  transform:scale(.88)!important;
+  color:#ff7a45!important;
+}
+
+/* ================= EASY TAGG v2.9.10.53 REMOVE FIELD + CENTERED HISTORY ACTIONS ================= */
+#historyList .historyRightV291053{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-width:92px!important;
+}
+#historyList .historyActionsV291053{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:8px!important;
+  width:100%!important;
+  margin-top:5px!important;
+}
+#historyList .historyActionsV291053 .editMini,
+#historyList .historyActionsV291053 .deleteMini{
+  margin:0!important;
+}
+#historyList .historyActionsV291053 .editMini{
+  min-width:48px!important;
+}
+#historyList .historyActionsV291053 .historyDeleteXV291052{
+  width:30px!important;
+  min-width:30px!important;
+  height:30px!important;
+}
+.deleteTagConfirmSheetV291053{max-width:430px!important;}
+.deleteTagQuestionV291053{margin:8px 0 10px!important;text-align:center!important;font-weight:900!important;font-size:15px!important;color:#fff!important;}
+.deleteTagSummaryV291053{padding:12px!important;border:1px solid #343434!important;border-radius:10px!important;background:#090909!important;color:#d1d5db!important;text-align:center!important;font-size:12px!important;font-weight:800!important;}
+.deleteTagButtonsV291053{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important;margin-top:14px!important;}
+.deleteTagButtonsV291053 button{width:100%!important;min-height:46px!important;}
+
+/* ================= EASY TAGG v2.9.10.54 CONTACT BOTTOM + DELETE CONFIRM FIX ================= */
+#detailSheet{
+  top:auto!important;
+  bottom:72px!important;
+  left:8px!important;
+  right:8px!important;
+  max-height:calc(100dvh - 88px)!important;
+  height:auto!important;
+  min-height:0!important;
+  overflow-y:auto!important;
+  display:block!important;
+  padding:8px!important;
+}
+#detailSheet.hidden{display:none!important;}
+#detailSheet .sheetHead{margin-bottom:4px!important;}
+#detailSheet h3{margin:7px 0 5px!important;font-size:14px!important;}
+#detailSheet .choiceGrid{gap:6px!important;}
+#detailSheet .choiceGrid button{min-height:44px!important;padding:7px 4px!important;font-size:12px!important;}
+#detailSheet #saveDetail{width:100%!important;min-height:48px!important;margin-top:8px!important;}
+
+#historyList .tagCard{
+  grid-template-columns:72px minmax(0,1fr) 96px!important;
+  gap:6px!important;
+  padding-right:4px!important;
+  overflow:hidden!important;
+}
+#historyList .historyRightV291053{min-width:0!important;width:96px!important;max-width:96px!important;}
+#historyList .historyActionsV291053{gap:4px!important;width:100%!important;}
+#historyList .historyActionsV291053 .editMini{min-width:56px!important;max-width:56px!important;}
+#historyList .historyActionsV291053 .historyDeleteXV291052{width:28px!important;min-width:28px!important;height:28px!important;}
+
+.deleteTagConfirmSheetV291053{
+  top:auto!important;
+  bottom:72px!important;
+  left:10px!important;
+  right:10px!important;
+  max-width:none!important;
+  max-height:calc(100dvh - 88px)!important;
+  overflow-y:auto!important;
+  padding:10px!important;
+}
+.deleteTagButtonsV291053{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:10px!important;
+  width:100%!important;
+  margin-top:12px!important;
+}
+.deleteTagButtonsV291053 button{
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  min-width:0!important;
+  min-height:48px!important;
+  margin:0!important;
+}
+#deleteTagConfirmV291053{
+  background:linear-gradient(135deg,#ff7a24,#FD5A1E)!important;
+  color:#111!important;
+  border-color:#ff9a66!important;
+  font-weight:1000!important;
+}
+
+/* ================= EASY TAGG v2.9.10.55 HISTORY APP-STYLE CARDS ================= */
+#historyList{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:8px!important;
+  padding:2px 0 10px!important;
+}
+#historyList .tagCard{
+  display:grid!important;
+  grid-template-columns:68px minmax(0,1fr) 92px!important;
+  align-items:center!important;
+  gap:8px!important;
+  width:100%!important;
+  margin:0!important;
+  padding:10px 8px!important;
+  box-sizing:border-box!important;
+  border:1px solid #30343b!important;
+  border-left:3px solid #FD5A1E!important;
+  border-radius:12px!important;
+  background:linear-gradient(145deg,#151515,#090909)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 3px 10px rgba(0,0,0,.20)!important;
+  overflow:hidden!important;
+}
+#historyList .tagTime{
+  min-width:0!important;
+  color:#fff!important;
+  font-size:13px!important;
+  line-height:1.15!important;
+  font-weight:1000!important;
+  text-align:left!important;
+}
+#historyList .tagTime small{
+  display:block!important;
+  margin-top:3px!important;
+  color:#d1d5db!important;
+  font-size:10px!important;
+  line-height:1.1!important;
+  font-weight:900!important;
+}
+#historyList .tagMain{
+  min-width:0!important;
+  overflow:hidden!important;
+  color:#fff!important;
+  line-height:1.12!important;
+}
+#historyList .tagMain>b{
+  display:block!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:normal!important;
+  font-size:14px!important;
+  line-height:1.12!important;
+  font-weight:1000!important;
+}
+#historyList .tagMain small{
+  display:block!important;
+  margin-top:5px!important;
+  color:#e5e7eb!important;
+  font-size:10px!important;
+  line-height:1.2!important;
+  font-weight:900!important;
+  overflow-wrap:anywhere!important;
+}
+#historyList .historyAPV29107,
+#historyList .historyAPV29106{
+  color:#FD5A1E!important;
+  font-weight:1000!important;
+  white-space:nowrap!important;
+}
+#historyList .tagRight,
+#historyList .historyRightV291053{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  justify-content:center!important;
+  width:92px!important;
+  min-width:92px!important;
+  max-width:92px!important;
+}
+#historyList .tagResult{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  min-height:38px!important;
+  padding:6px 4px!important;
+  box-sizing:border-box!important;
+  border-radius:10px!important;
+  font-size:12px!important;
+  line-height:1.05!important;
+  font-weight:1000!important;
+  text-align:center!important;
+  overflow-wrap:anywhere!important;
+}
+#historyList .tagActions,
+#historyList .historyActionsV291053{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 30px!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:5px!important;
+  width:100%!important;
+  margin-top:6px!important;
+}
+#historyList .historyActionsV291053 .editMini,
+#historyList .tagActions .editMini{
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  height:30px!important;
+  min-height:30px!important;
+  margin:0!important;
+  padding:3px 6px!important;
+  border:1px solid #FD5A1E!important;
+  border-radius:9px!important;
+  background:#0d0d0d!important;
+  color:#fff!important;
+  font-size:10px!important;
+  line-height:1!important;
+  font-weight:1000!important;
+  box-shadow:none!important;
+}
+#historyList .historyActionsV291053 .historyDeleteXV291052,
+#historyList .tagActions .historyDeleteXV291052{
+  position:static!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:30px!important;
+  min-width:30px!important;
+  max-width:30px!important;
+  height:30px!important;
+  min-height:30px!important;
+  margin:0!important;
+  padding:0 0 2px!important;
+  box-sizing:border-box!important;
+  border:1px solid rgba(253,90,30,.65)!important;
+  border-radius:9px!important;
+  background:rgba(253,90,30,.10)!important;
+  color:#FD5A1E!important;
+  font-size:21px!important;
+  line-height:1!important;
+  font-weight:1000!important;
+  overflow:hidden!important;
+}
+@media(max-width:360px){
+  #historyList .tagCard{grid-template-columns:58px minmax(0,1fr) 84px!important;gap:6px!important;padding:9px 6px!important;}
+  #historyList .tagRight,#historyList .historyRightV291053{width:84px!important;min-width:84px!important;max-width:84px!important;}
+  #historyList .tagTime{font-size:11px!important;}
+  #historyList .tagMain>b{font-size:12px!important;}
+  #historyList .tagMain small{font-size:9px!important;}
+  #historyList .tagResult{font-size:11px!important;}
+}
+
+
+/* Easy Tagg v2.9.10.56 - exit confirmation */
+.exitAppSheetV291056{top:auto!important;bottom:72px!important;max-width:520px!important;left:50%!important;transform:translateX(-50%)!important;}
+.exitAppBodyV291056{padding:18px 16px 16px;}
+.exitAppBodyV291056 p{margin:0 0 18px;font-size:17px;font-weight:800;text-align:center;color:#f4f4f4;}
+.exitAppActionsV291056{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.exitAppActionsV291056 button{min-height:52px;display:flex;align-items:center;justify-content:center;font-weight:900;}
+
+/* Easy Tagg v2.9.10.57 - visible exit confirmation + phone back navigation */
+.exitAppSheetV291057{z-index:10020!important;overflow:visible!important;}
+.exitAppSheetV291057 .exitAppBodyV291056{overflow:visible!important;padding-bottom:18px!important;}
+.exitAppSheetV291057 .exitAppActionsV291056{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:12px!important;
+  width:100%!important;
+  overflow:visible!important;
+}
+.exitAppSheetV291057 .exitAppActionsV291056 button{
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+  width:100%!important;
+  min-width:0!important;
+  min-height:54px!important;
+  margin:0!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border-radius:12px!important;
+  font-size:14px!important;
+  font-weight:1000!important;
+  white-space:normal!important;
+}
+.exitAppSheetV291057 .exitConfirmButtonV291057{
+  background:#FD5A1E!important;
+  border:2px solid #ff7a45!important;
+  color:#101318!important;
+  box-shadow:0 0 0 1px rgba(253,90,30,.22),0 8px 20px rgba(253,90,30,.20)!important;
+}
+@media(max-width:360px){
+  .exitAppSheetV291057 .exitAppActionsV291056{grid-template-columns:1fr!important;}
+}
+
+
+/* Easy Tagg v2.9.10.58 - tag saved feedback + live batter-side zone reference */
+.zoneTitleV291058{display:flex;align-items:center;gap:8px;min-width:0}
+.catcherViewV291058{color:#fff!important;opacity:.38;font-size:9px;font-weight:700;letter-spacing:.8px;white-space:nowrap}
+.tagSavedToastV291058{position:fixed;left:50%;bottom:84px;transform:translate(-50%,12px);z-index:12000;display:flex;align-items:center;justify-content:center;min-width:150px;max-width:calc(100vw - 30px);padding:10px 16px;border:1px solid #FD5A1E;border-radius:12px;background:rgba(12,12,12,.96);color:#fff;font-size:13px;font-weight:1000;letter-spacing:.45px;opacity:0;pointer-events:none;transition:opacity .14s ease,transform .14s ease;box-shadow:0 8px 24px rgba(0,0,0,.42)}
+.tagSavedToastV291058.show{opacity:1;transform:translate(-50%,0)}
+.batterVisualV291058{position:absolute;top:17%;width:58px;height:145px;z-index:1;opacity:.27;pointer-events:none;transition:left .14s ease,right .14s ease,transform .14s ease,opacity .14s ease;color:#f4f4f4}
+.batterVisualV291058.hiddenSideV291058{opacity:0}
+.batterVisualV291058.rhhV291058{left:12%;right:auto;transform:none}
+.batterVisualV291058.lhhV291058{right:12%;left:auto;transform:scaleX(-1)}
+.batterVisualV291058 span{position:absolute;display:block;background:currentColor}
+.batterHeadV291058{left:23px;top:2px;width:17px;height:17px;border-radius:50%}
+.batterBodyV291058{left:23px;top:20px;width:15px;height:54px;border-radius:9px 9px 5px 5px;transform:rotate(7deg)}
+.batterArmsV291058{left:11px;top:31px;width:38px;height:9px;border-radius:8px;transform:rotate(-26deg)}
+.batterLegFrontV291058{left:29px;top:69px;width:10px;height:62px;border-radius:8px;transform:rotate(-12deg);transform-origin:top center}
+.batterLegBackV291058{left:18px;top:68px;width:10px;height:59px;border-radius:8px;transform:rotate(16deg);transform-origin:top center}
+.batterBatV291058{left:5px;top:13px;width:6px;height:79px;border-radius:5px;transform:rotate(-35deg);transform-origin:bottom center}
+.batterVisualV291058 small{position:absolute;left:50%;bottom:0;transform:translateX(-50%);padding:1px 4px;border-radius:5px;background:rgba(0,0,0,.55);color:#fff;font-size:8px;font-weight:1000;letter-spacing:.4px;white-space:nowrap}
+.batterVisualV291058.lhhV291058 small{transform:translateX(-50%) scaleX(-1)}
+.strikeBox,#marker{z-index:3}
+@media(max-width:360px){
+  .batterVisualV291058.rhhV291058{left:7%}
+  .batterVisualV291058.lhhV291058{right:7%}
+  .catcherViewV291058{font-size:8px;letter-spacing:.55px}
+}
+
+
+/* Easy Tagg v2.9.10.59 - uploaded batter silhouette beside strike zone */
+.batterVisualV291058{
+  top:-5%!important;
+  width:43%!important;
+  height:112%!important;
+  opacity:.34!important;
+  overflow:visible!important;
+  z-index:1!important;
+  transition:left .14s ease,right .14s ease,transform .14s ease,opacity .14s ease!important;
+}
+.batterVisualV291058 img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center bottom;
+  filter:invert(1);
+  pointer-events:none;
+  user-select:none;
+}
+.batterVisualV291058.rhhV291058{
+  left:-9%!important;
+  right:auto!important;
+  transform:none!important;
+}
+.batterVisualV291058.lhhV291058{
+  right:-9%!important;
+  left:auto!important;
+  transform:scaleX(-1)!important;
+}
+.batterVisualV291058.hiddenSideV291058{opacity:0!important}
+.strikeBox,#marker{z-index:3!important}
+@media(max-width:360px){
+  .batterVisualV291058{width:46%!important;height:114%!important;top:-6%!important}
+  .batterVisualV291058.rhhV291058{left:-12%!important}
+  .batterVisualV291058.lhhV291058{right:-12%!important}
+}
+
+
+/* Easy Tagg v2.9.10.60 - dedicated LHH/RHH silhouettes positioned tight to the strike zone */
+.batterVisualV291058{
+  top:-18%!important;
+  width:49%!important;
+  height:137%!important;
+  opacity:.30!important;
+  overflow:visible!important;
+  z-index:1!important;
+}
+.batterSideImageV291060{
+  position:absolute;
+  inset:0;
+  display:none;
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  object-position:center bottom!important;
+  filter:invert(1)!important;
+  mix-blend-mode:screen!important;
+  pointer-events:none!important;
+  user-select:none!important;
+}
+.batterVisualV291058.rhhV291058{
+  left:-4%!important;
+  right:auto!important;
+  transform:none!important;
+}
+.batterVisualV291058.lhhV291058{
+  right:-4%!important;
+  left:auto!important;
+  transform:none!important;
+}
+.batterVisualV291058.rhhV291058 .batterRhhImageV291060{display:block!important}
+.batterVisualV291058.lhhV291058 .batterLhhImageV291060{display:block!important}
+.batterVisualV291058.rhhV291058 .batterLhhImageV291060,
+.batterVisualV291058.lhhV291058 .batterRhhImageV291060{display:none!important}
+@media(max-width:360px){
+  .batterVisualV291058{top:-19%!important;width:52%!important;height:139%!important}
+  .batterVisualV291058.rhhV291058{left:-7%!important}
+  .batterVisualV291058.lhhV291058{right:-7%!important}
+}
+
+/* Easy Tagg v2.9.10.61 - tag button stays orange for the same 720 ms as TAG SAVED */
+#tagScreen button.tagButtonSavedV291061{
+  background:#FD5A1E!important;
+  border-color:#ff7a45!important;
+  color:#101318!important;
+  box-shadow:0 0 0 2px rgba(253,90,30,.26),0 7px 18px rgba(253,90,30,.28)!important;
+  transition:background-color .10s ease,border-color .10s ease,color .10s ease,box-shadow .10s ease!important;
+}
+
+/* Easy Tagg v2.9.10.62 - visually match LHH silhouette size to RHH */
+.batterVisualV291058.lhhV291058 .batterLhhImageV291060{
+  transform:scaleX(1.32)!important;
+  transform-origin:right bottom!important;
+}
+
+/* Easy Tagg v2.9.10.63 - BATS-style full-height batter placement beside strike zone */
+.batterVisualV291058{
+  top:-24%!important;
+  width:34%!important;
+  height:154%!important;
+  opacity:.34!important;
+  overflow:visible!important;
+}
+.batterVisualV291058.rhhV291058{
+  left:-1%!important;
+  right:auto!important;
+}
+.batterVisualV291058.lhhV291058{
+  right:-1%!important;
+  left:auto!important;
+}
+.batterSideImageV291060{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  filter:invert(1)!important;
+  mix-blend-mode:screen!important;
+}
+.batterVisualV291058.rhhV291058 .batterRhhImageV291060{
+  object-position:right bottom!important;
+  transform:none!important;
+}
+.batterVisualV291058.lhhV291058 .batterLhhImageV291060{
+  object-position:left bottom!important;
+  transform:none!important;
+}
+@media(max-width:360px){
+  .batterVisualV291058{top:-25%!important;width:36%!important;height:157%!important}
+  .batterVisualV291058.rhhV291058{left:-3%!important}
+  .batterVisualV291058.lhhV291058{right:-3%!important}
+}
+
+
+/* Easy Tagg v2.9.10.64 - clean original strike zone, no batter image */
+.batterVisualV291058,
+.batterSideImageV291060{display:none!important;}
+
+
+/* Easy Tagg v2.9.10.66 - Batter History and alphabetical roster lists */
+#runnerEventBtnV294{font-weight:800;letter-spacing:.03em}
+.batterHistorySummaryV291066{display:flex;justify-content:space-between;align-items:center;padding:10px 2px 12px;color:#aeb6c2;font-size:12px}
+.batterHistorySummaryV291066 b{color:#fff}
+.batterHistoryListV291066{display:flex;flex-direction:column;gap:10px;max-height:68vh;overflow:auto;padding-bottom:8px}
+.batterHistoryPlayerV291066{border:1px solid rgba(255,255,255,.10);border-radius:12px;background:#111821;overflow:hidden}
+.batterHistoryPlayerHeadV291066{display:flex;align-items:center;justify-content:space-between;padding:11px 12px;background:#171f2a;border-bottom:1px solid rgba(255,255,255,.08)}
+.batterHistoryPlayerHeadV291066 div{display:flex;flex-direction:column;gap:2px}.batterHistoryPlayerHeadV291066 b{font-size:15px}.batterHistoryPlayerHeadV291066 small{color:#98a3b2}.batterHistoryPlayerHeadV291066>span{background:#FD5A1E;color:#101318;font-weight:900;border-radius:999px;padding:5px 9px;font-size:12px}
+.batterHistoryPaListV291066{display:flex;flex-direction:column}
+.batterHistoryPaV291066{display:grid;grid-template-columns:54px 52px 1fr;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.07)}
+.batterHistoryPaV291066:last-child{border-bottom:0}.batterHistoryPaV291066>b{color:#FD5A1E}.batterHistoryPaV291066>span{font-weight:800}.batterHistoryPaV291066>small{color:#aab3bf;white-space:normal;line-height:1.25}
+.batterHistoryEmptyV291066{margin:0;padding:13px 12px;color:#929cab}
+
+
+/* Easy Tagg v2.9.10.67 - read-only dropdown Batter History */
+.batterHistorySheetV291067{max-height:88vh;overflow:hidden}
+.batterHistoryListV291067{display:flex;flex-direction:column;gap:9px;max-height:72vh;overflow-y:auto;padding:4px 1px 12px;-webkit-overflow-scrolling:touch}
+.batterHistoryDropdownV291067{border:1px solid rgba(255,255,255,.11);border-radius:11px;background:#111821;overflow:hidden}
+.batterHistoryToggleV291067{width:100%;display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:7px;padding:12px;background:#171f2a;border:0;color:#fff;text-align:left}
+.batterHistoryToggleV291067 b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.batterHistoryToggleV291067>strong{font-size:13px;color:#FD5A1E;white-space:nowrap}.batterHistoryArrowV291067{color:#FD5A1E;font-size:13px}
+.batterHistoryBodyV291067{display:flex;flex-direction:column}.batterHistoryBodyV291067.hidden{display:none!important}
+.batterHistoryAbV291067{padding:11px 12px;border-top:1px solid rgba(255,255,255,.08)}.batterHistoryAbV291067>b{display:block;color:#FD5A1E;margin-bottom:6px;font-size:13px}
+.batterHistorySequenceV291067{font-size:13px;line-height:1.45;color:#e5e7eb;overflow-wrap:anywhere}.batterHistoryResultV291067{margin-top:7px;font-size:13px;color:#aeb6c2}.batterHistoryResultV291067 strong{color:#fff}
+.batterHistoryEmptyV291067{margin:0;padding:13px 12px;color:#929cab}
+
+/* Easy Tagg v2.9.10.73 - Player At-Bats manual refresh */
+.playerAtBatsRefreshBarV291073{display:flex;align-items:center;gap:10px;padding:8px 12px 10px;border-bottom:1px solid rgba(255,112,45,.45)}
+.playerAtBatsRefreshBarV291073 button{min-width:112px;padding:10px 14px;border:1px solid #ff6b2c;border-radius:10px;background:#ff5a22;color:#fff;font-weight:900}
+.playerAtBatsRefreshBarV291073 button:disabled{opacity:.65}
+.playerAtBatsRefreshBarV291073 small{color:#c9d0db;font-size:12px;line-height:1.25}
+
+
+/* Easy Tagg v2.9.10.79 - safe Player At-Bats scroll fix only */
+.batterHistoryListV291067{
+  max-height:72vh!important;
+  overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+}
+.batterHistoryBodyV291067:not(.hidden){
+  max-height:42vh!important;
+  overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+}
+
+/* Easy Tagg v2.9.10.81 - Omit Tag + manual Late Tag flag */
+.tagCardOmittedV291081{opacity:.72;border-color:rgba(160,170,184,.45)!important;background:rgba(70,78,90,.20)!important}
+.tagCardOmittedV291081 .tagResult{background:#59616d!important;color:#fff!important}
+.omitBadgeV291081{display:inline-block;margin-top:6px;padding:3px 7px;border:1px solid rgba(190,198,210,.42);border-radius:999px;color:#d4d9e1;font-size:10px;font-weight:900;letter-spacing:.04em}
+.tagCardLateV291081{border-left:4px solid #ef4444!important}
+.lateBadgeV291081{display:inline-block;margin-top:6px;padding:3px 7px;border:1px solid rgba(239,68,68,.72);border-radius:999px;background:rgba(239,68,68,.14);color:#ffb4b4;font-size:10px;font-weight:900;letter-spacing:.03em}
+.flagMiniV291081{min-width:34px!important;padding:6px 7px!important;border:1px solid rgba(255,255,255,.16)!important;border-radius:8px!important;background:#202833!important;color:#c8ced8!important;font-size:15px!important}
+.flagMiniV291081.active{background:#b91c1c!important;border-color:#ef4444!important;color:#fff!important}
+.restoreOmitV291081{background:#374151!important;border-color:#6b7280!important;color:#fff!important}
+.tagActions button:disabled{opacity:.38!important;pointer-events:none!important}
+
+
+/* Easy Tagg v2.9.10.82 - small Late Tag flag in the upper-left corner.
+   Existing Result, Edit and X layout remains untouched. */
+.tagCard{position:relative}
+.historyCornerFlagV291082{
+  position:absolute!important;
+  top:4px!important;
+  left:5px!important;
+  z-index:8!important;
+  width:20px!important;
+  min-width:20px!important;
+  height:20px!important;
+  min-height:20px!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:50%!important;
+  background:transparent!important;
+  color:#8a8a8a!important;
+  font-size:11px!important;
+  line-height:20px!important;
+  text-align:center!important;
+  box-shadow:none!important;
+  opacity:.42!important;
+}
+.historyCornerFlagV291082.active{color:#d71920!important;opacity:1!important;text-shadow:0 1px 2px rgba(0,0,0,.28)}
+.historyCornerFlagV291082:active{transform:scale(.9)}
+
+
+/* Easy Tagg v2.9.10.90 - Add Existing Player Search */
+.activityRosterSearchWrapV291090{position:sticky;top:0;z-index:2;background:var(--card,#fff);padding:2px 0 10px;}
+#activityRosterSearchV291090{width:100%;box-sizing:border-box;margin:0;min-height:44px;font-size:16px;}
+
+/* Easy Tagg v2.9.10.91 - Player At-Bats single-scroll stability fix */
+#runnerEventSheetV294.playerAtBatsSheetV291091:not(.hidden){
+  display:flex!important;
+  flex-direction:column!important;
+  max-height:calc(100dvh - 16px)!important;
+  overflow:hidden!important;
+}
+#runnerEventSheetV294.playerAtBatsSheetV291091 .sheetHead,
+#runnerEventSheetV294.playerAtBatsSheetV291091 .playerAtBatsRefreshBarV291073{
+  flex:0 0 auto!important;
+}
+#runnerEventSheetV294.playerAtBatsSheetV291091 .batterHistoryListV291067{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+  padding-bottom:18px!important;
+}
+#runnerEventSheetV294.playerAtBatsSheetV291091 .batterHistoryBodyV291067:not(.hidden){
+  max-height:none!important;
+  overflow:visible!important;
+  touch-action:auto!important;
+}
+
+/* Easy Tagg v2.9.10.92 - Player At-Bats full-screen accordion */
+#runnerEventSheetV294.playerAtBatsFullScreenV291092:not(.hidden){
+  position:fixed!important;
+  inset:0!important;
+  width:100%!important;
+  height:100dvh!important;
+  max-height:100dvh!important;
+  margin:0!important;
+  padding:calc(10px + env(safe-area-inset-top)) 10px calc(10px + env(safe-area-inset-bottom))!important;
+  border:0!important;
+  border-radius:0!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
+  z-index:120!important;
+}
+#runnerEventSheetV294.playerAtBatsFullScreenV291092 .sheetHead{
+  flex:0 0 auto!important;
+  position:relative!important;
+  z-index:2!important;
+  margin:0!important;
+  padding:4px 2px 10px!important;
+}
+#runnerEventSheetV294.playerAtBatsFullScreenV291092 .sheetHead h2{
+  font-size:20px!important;
+}
+#runnerEventSheetV294.playerAtBatsFullScreenV291092 .sheetHead .close{
+  width:46px!important;
+  min-width:46px!important;
+  height:46px!important;
+  padding:0!important;
+  margin:0!important;
+  font-size:26px!important;
+}
+#runnerEventSheetV294.playerAtBatsFullScreenV291092 .playerAtBatsRefreshBarV291073{
+  flex:0 0 auto!important;
+  position:relative!important;
+  z-index:2!important;
+  padding:10px 2px 12px!important;
+}
+#runnerEventSheetV294.playerAtBatsFullScreenV291092 .playerAtBatsRefreshBarV291073 button{
+  min-height:48px!important;
+  flex:1 1 58%!important;
+}
+#runnerEventSheetV294.playerAtBatsFullScreenV291092 .playerAtBatsRefreshBarV291073 small{
+  flex:1 1 42%!important;
+  font-size:14px!important;
+}
+#runnerEventSheetV294.playerAtBatsFullScreenV291092 .batterHistoryListV291067{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  height:auto!important;
+  max-height:none!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior-y:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+  padding:8px 0 28px!important;
+  scroll-padding-top:8px!important;
+}
+#runnerEventSheetV294.playerAtBatsFullScreenV291092 .batterHistoryDropdownV291067{
+  scroll-margin-top:8px!important;
+}
+#runnerEventSheetV294.playerAtBatsFullScreenV291092 .batterHistoryBodyV291067:not(.hidden){
+  max-height:none!important;
+  height:auto!important;
+  overflow:visible!important;
+}
+
+/* Easy Tagg v2.9.10.93 - internal scroll for expanded Player At-Bats only */
+#runnerEventSheetV294.playerAtBatsFullScreenV291092 .batterHistoryBodyV291067:not(.hidden){
+  display:flex!important;
+  flex-direction:column!important;
+  max-height:clamp(250px,52dvh,560px)!important;
+  min-height:0!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+  scroll-behavior:smooth!important;
+  padding-bottom:calc(22px + env(safe-area-inset-bottom))!important;
+}
+#runnerEventSheetV294.playerAtBatsFullScreenV291092 .batterHistoryBodyV291067:not(.hidden) .batterHistoryAbV291067{
+  flex:0 0 auto!important;
+}
+
+/* Easy Tagg v2.9.10.94 - Player At-Bats stable two-level navigation */
+#runnerEventSheetV294.playerAtBatsTwoLevelV291094 .batterHistoryListV291067{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  height:auto!important;
+  max-height:none!important;
+  overflow:hidden!important;
+  padding:8px 0 calc(18px + env(safe-area-inset-bottom))!important;
+  display:flex!important;
+  flex-direction:column!important;
+}
+#runnerEventSheetV294.playerAtBatsTwoLevelV291094 .playerAtBatsPlayerListV291094{
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior-y:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+  gap:10px!important;
+}
+.playerAtBatsPlayerRowV291094{
+  width:100%!important;
+  flex:0 0 auto!important;
+  display:grid!important;
+  grid-template-columns:28px minmax(0,1fr) auto!important;
+  align-items:center!important;
+  gap:8px!important;
+  min-height:58px!important;
+  padding:12px 14px!important;
+  border:1px solid rgba(113,172,255,.48)!important;
+  border-radius:13px!important;
+  background:linear-gradient(180deg,rgba(42,78,126,.94),rgba(28,57,98,.94))!important;
+  color:#fff!important;
+  text-align:left!important;
+}
+.playerAtBatsPlayerRowV291094 b{
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  font-size:17px!important;
+}
+.playerAtBatsPlayerRowV291094 strong,
+.playerAtBatsPlayerArrowV291094{
+  color:#ff6a2a!important;
+  white-space:nowrap!important;
+}
+#runnerEventSheetV294.playerAtBatsTwoLevelV291094 .playerAtBatsDetailViewV291094{
+  overflow:hidden!important;
+  padding-top:4px!important;
+}
+.playerAtBatsDetailHeaderV291094{
+  flex:0 0 auto!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:10px!important;
+  padding:4px 0 10px!important;
+  border-bottom:1px solid rgba(255,105,42,.62)!important;
+}
+.playerAtBatsBackV291094{
+  flex:0 0 auto!important;
+  min-height:44px!important;
+  padding:9px 13px!important;
+  border:1px solid rgba(255,105,42,.8)!important;
+  border-radius:11px!important;
+  background:rgba(255,105,42,.13)!important;
+  color:#fff!important;
+  font-weight:800!important;
+}
+.playerAtBatsDetailIdentityV291094{
+  min-width:0!important;
+  flex:1 1 auto!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:10px!important;
+}
+.playerAtBatsDetailIdentityV291094 b{
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  font-size:17px!important;
+}
+.playerAtBatsDetailIdentityV291094 strong{
+  color:#ff6a2a!important;
+  white-space:nowrap!important;
+}
+.playerAtBatsAbScrollV291094{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior-y:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+  padding:10px 0 calc(32px + env(safe-area-inset-bottom))!important;
+}
+.playerAtBatsDetailAbV291094{
+  display:block!important;
+  padding:15px 12px!important;
+  border-bottom:1px solid rgba(133,180,238,.32)!important;
+  background:rgba(28,63,108,.9)!important;
+}
+.playerAtBatsDetailAbV291094:first-child{
+  border-radius:12px 12px 0 0!important;
+}
+.playerAtBatsDetailAbV291094:last-child{
+  border-radius:0 0 12px 12px!important;
+  border-bottom:0!important;
+}
+.playerAtBatsDetailAbV291094>b{
+  display:block!important;
+  margin-bottom:8px!important;
+  color:#ff6a2a!important;
+  font-size:18px!important;
+}
+
+
+/* Easy Tagg v2.9.10.97 - visible Reset App placement */
+#setupScreen{
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+  padding-bottom:90px!important;
+}
+.resetAppBoxV291097{
+  margin-top:12px!important;
+  padding-top:10px!important;
+  border-top:1px solid rgba(255,80,80,.35)!important;
+}
+#setupScreen .resetAppBtnV291097{
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  width:100%!important;
+  min-height:46px!important;
+  background:#8f1717!important;
+  border:1px solid #ff5a5a!important;
+  color:#fff!important;
+  font-size:14px!important;
+  font-weight:900!important;
+  letter-spacing:.5px!important;
+}
+.resetAppBoxV291097 p{
+  margin:6px 2px 0!important;
+  color:#aaa!important;
+  font-size:10px!important;
+  line-height:1.35!important;
+}
+
+
+/* Easy Tagg v2.9.10.99 - native in-app reset dialogs */
+.etDialogV291099{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:95;width:min(92vw,430px);background:linear-gradient(180deg,#171717,#090909);border:1px solid #4b4b4b;border-radius:20px;padding:20px 16px 16px;box-shadow:0 24px 70px #000; text-align:center}
+.etDialogV291099 h2{margin:8px 0 12px;color:var(--orange);font-size:20px;letter-spacing:.5px}
+.etDialogV291099 p{margin:8px 0;color:#eee;line-height:1.4}
+.etDialogIconV291099{width:52px;height:52px;border-radius:50%;margin:0 auto;display:grid;place-items:center;background:#2b160f;border:2px solid var(--orange);color:var(--orange);font-weight:1000;font-size:28px}
+.etDialogDangerIconV291099{background:#2b0909;border-color:#ff4d4d;color:#ff6b6b}
+.etDialogSuccessIconV291099{background:#0d2817;border-color:#35c46a;color:#6ee79a}
+.etResetListV291099{margin:10px 0;padding:11px;border-radius:12px;border:1px solid #3a3a3a;background:#0d0d0d;color:#fff;font-weight:800;line-height:1.5}
+.etDialogSafeV291099{color:#b9d9c3!important;font-size:13px}
+.etDialogQuestionV291099{font-size:17px;font-weight:900}
+.etDialogActionsV291099{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.etDialogActionsV291099 button{min-height:46px;margin:0}
+.etDialogSecondaryV291099{background:#171717;border-color:#555;color:#fff}
+.etDialogPrimaryV291099{background:linear-gradient(135deg,#ff3b0a,var(--orange));border-color:#ff8a50;color:#fff}
+.etDialogDangerV291099{background:linear-gradient(135deg,#8f1010,#d22);border-color:#ff6868;color:#fff}
+.etDialogSingleActionV291099{grid-template-columns:1fr}
+
+
+/* ================= EASY TAGG v2.9.10.100 =================
+   Complete persistent Light / Dark interface theme.
+   Uses one root attribute and high-priority semantic overrides so dynamic
+   components inherit the active appearance without changing game logic.
+   ======================================================== */
+:root{
+  --et-bg:#050505;
+  --et-surface:#111111;
+  --et-surface-2:#171717;
+  --et-surface-3:#090909;
+  --et-text:#ffffff;
+  --et-muted:#aeb4bd;
+  --et-border:#363636;
+  --et-input:#101010;
+  --et-header:#070707f5;
+  --et-nav:#070707;
+  --et-overlay:rgba(0,0,0,.65);
+  --et-shadow:rgba(0,0,0,.82);
+  color-scheme:dark;
+}
+html[data-theme="light"]{
+  --et-bg:#eef1f5;
+  --et-surface:#ffffff;
+  --et-surface-2:#f6f7f9;
+  --et-surface-3:#e9edf2;
+  --et-text:#111418;
+  --et-muted:#56606d;
+  --et-border:#c7cdd5;
+  --et-input:#ffffff;
+  --et-header:rgba(255,255,255,.97);
+  --et-nav:#ffffff;
+  --et-overlay:rgba(18,24,32,.42);
+  --et-shadow:rgba(24,32,44,.22);
+  color-scheme:light;
+}
+html,body{background:var(--et-bg)!important;color:var(--et-text)!important;transition:background-color .16s ease,color .16s ease}
+header{background:var(--et-header)!important;border-color:var(--et-border)!important;color:var(--et-text)!important}
+nav{background:var(--et-nav)!important;border-color:var(--et-border)!important}
+.screen,.screen.active,main{color:var(--et-text)!important}
+.card,.zoneCard,.more,.sheet,.etDialogV291099,
+.playerCard,.sideBox,.stats>div,.statLine>div,
+.activityRosterToolsV252,.setupCreateCardV2911,.databaseUpdatesCardV291045,.appUpdatesCardV291046,
+[class*="Card"],[class*="card"],[class*="Sheet"],[class*="sheet"],[class*="Dialog"],[class*="dialog"],
+[class*="Modal"],[class*="modal"],[class*="Dropdown"],[class*="dropdown"]{
+  background:var(--et-surface)!important;
+  color:var(--et-text)!important;
+  border-color:var(--et-border)!important;
+  box-shadow:none!important;
+}
+.card,.zoneCard,.more,.etDialogV291099{background:linear-gradient(180deg,var(--et-surface),var(--et-surface-2))!important}
+select,input,textarea,button,
+.listBtn,.person,.inn,.pitchCompact button,.countRow button,.quickGrid button,
+.choiceGrid button,.editMini,.tab,.close,
+[class*="Btn"],[class*="Button"],[class*="button"]{
+  background-color:var(--et-input)!important;
+  color:var(--et-text)!important;
+  border-color:var(--et-border)!important;
+}
+input::placeholder,textarea::placeholder{color:var(--et-muted)!important;opacity:1}
+select option{background:var(--et-input)!important;color:var(--et-text)!important}
+p,span,small,label,td,strong,b,summary,.hint,.tagMatch,.tagMeta,
+[class*="Text"],[class*="text"],[class*="Name"],[class*="name"],[class*="Meta"],[class*="meta"]{color:inherit}
+h2,h3,th,.num,.zoneTop b,.person small,.inn small,.sideBox small,.pitchCompact span,.countRow b,.stats b,.sheetHead h2{color:var(--orange)!important}
+.hint,.zoneTop,.stats small,.tagMeta,.resetAppBoxV291097 p,[class*="Hint"],[class*="hint"]{color:var(--et-muted)!important}
+.zone{
+  background-color:var(--et-surface-3)!important;
+  border-color:var(--et-border)!important;
+  background-image:linear-gradient(color-mix(in srgb,var(--et-border) 58%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--et-border) 58%,transparent) 1px,transparent 1px)!important;
+}
+.overlay{background:var(--et-overlay)!important}
+table td,table th,.tagCard{border-color:var(--et-border)!important}
+.etResetListV291099{background:var(--et-surface-3)!important;color:var(--et-text)!important;border-color:var(--et-border)!important}
+.etDialogV291099{box-shadow:0 18px 55px var(--et-shadow)!important}
+.etDialogV291099 p,.etDialogSecondaryV291099{color:var(--et-text)!important}
+.etDialogSafeV291099{color:#29864b!important}
+html[data-theme="dark"] .etDialogSafeV291099{color:#b9d9c3!important}
+
+/* Preserve semantic / brand actions in both themes. */
+.tab.active,#resultBtn,#saveDetail,#exportCsv,#createGame,
+.choiceGrid button.selected,.pitchCompact button.selected,
+.etDialogPrimaryV291099,[class*="selected"],[aria-pressed="true"]{
+  background:linear-gradient(135deg,#ff3b0a,var(--orange))!important;
+  border-color:#ff8a50!important;
+  color:#ffffff!important;
+}
+.danger,.resetAppBtnV291097,.etDialogDangerV291099{background:#8f1717!important;border-color:#ff5a5a!important;color:#ffffff!important}
+.resultHit{background:rgba(34,197,94,.18)!important;border-color:#22c55e!important;color:#16783a!important}
+.resultK{background:rgba(239,68,68,.18)!important;border-color:#ef4444!important;color:#b91c1c!important}
+.resultWalk{background:rgba(234,179,8,.20)!important;border-color:#ca8a04!important;color:#854d0e!important}
+.resultOut{background:rgba(100,116,139,.15)!important;border-color:#64748b!important;color:var(--et-text)!important}
+.resultOther{background:rgba(253,90,30,.14)!important;border-color:var(--orange)!important;color:var(--et-text)!important}
+html[data-theme="dark"] .resultHit{color:#86efac!important}
+html[data-theme="dark"] .resultK{color:#fecaca!important}
+html[data-theme="dark"] .resultWalk{color:#fde68a!important}
+
+/* Explicit light cleanup for historical hard-coded dark surfaces. */
+html[data-theme="light"] [style*="background:#0"],
+html[data-theme="light"] [style*="background: #0"],
+html[data-theme="light"] [style*="background:#1"],
+html[data-theme="light"] [style*="background: #1"],
+html[data-theme="light"] [style*="background-color:#0"],
+html[data-theme="light"] [style*="background-color: #0"],
+html[data-theme="light"] [style*="background-color:#1"],
+html[data-theme="light"] [style*="background-color: #1"]{
+  background:var(--et-surface)!important;color:var(--et-text)!important;border-color:var(--et-border)!important;
+}
+html[data-theme="light"] [style*="color:#fff"],
+html[data-theme="light"] [style*="color: #fff"],
+html[data-theme="light"] [style*="color:white"],
+html[data-theme="light"] [style*="color: white"]{color:var(--et-text)!important}
+/* Do not recolor brand / media assets. */
+img,canvas,video,svg{filter:none!important}
+
+/* Compact switch at the bottom of New Game. */
+.themeControlV2910100{
+  width:min(100%,280px);margin:12px auto 4px;padding:8px 10px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--et-surface)!important;color:var(--et-text)!important;
+  border:1px solid var(--et-border)!important;border-radius:12px;
+}
+.themeControlTextV2910100{display:flex;flex-direction:column;gap:1px;text-align:left}
+.themeControlTextV2910100 b{font-size:10px;letter-spacing:.6px;color:var(--orange)!important}
+.themeControlTextV2910100 span{font-size:10px;color:var(--et-muted)!important}
+.themeSwitchV2910100{position:relative;display:inline-flex;width:50px;height:28px;flex:0 0 auto;margin:0}
+.themeSwitchV2910100 input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.themeSliderV2910100{position:absolute;inset:0;border-radius:999px;background:#252525;border:1px solid var(--et-border);transition:.16s ease;cursor:pointer}
+.themeIconV2910100{position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:#ffffff;color:#111;font-size:12px;transition:.16s ease}
+.themeSwitchV2910100 input:checked+.themeSliderV2910100{background:#dfe5ec}
+.themeSwitchV2910100 input:checked+.themeSliderV2910100 .themeIconV2910100{transform:translateX(22px);background:#ffffff;color:#d97706}
+.themeSwitchV2910100 input:focus-visible+.themeSliderV2910100{outline:2px solid var(--orange);outline-offset:2px}
+
+
+/* v2.9.10.101 pitcher number contrast */
+#pitcherList .quickPitcherNumberV29105,
+html[data-theme="light"] #pitcherList .quickPitcherNumberV29105,
+html[data-theme="dark"] #pitcherList .quickPitcherNumberV29105{
+  background:#FD5A1E!important;
+  color:#111111!important;
+  border:1px solid #ff9a73!important;
+  text-shadow:none!important;
+}
+.resultFoulV2910101{border-color:#FD5A1E!important}
+
+/* Easy Tagg v2.9.10.103 - inning-ending runner-out results */
+.resultRunnerOutV2910103{border-color:#FD5A1E!important;font-weight:900!important}
+html[data-theme="light"] .resultRunnerOutV2910103{color:#111!important;background:#fff!important}
+html[data-theme="dark"] .resultRunnerOutV2910103{color:#fff!important}
+
+
+/* Easy Tagg v2.9.10.104 - Player At-Bats NULL/INCOMPLETE visual */
+.playerAtBatsNullPaV2910104{border-style:dashed!important;opacity:.88;}
+.playerAtBatsNullPaV2910104>b{color:var(--accent,#ff7a00)!important;}
+
+/* Easy Tagg v2.9.10.109 - COMPLETE LIGHT MODE VISIBILITY AUDIT
+   Visual-only overrides. No game, clock, sync, tag, roster or search logic changes. */
+html[data-theme="light"] body{background:#f4f6f8!important;color:#111827!important}
+html[data-theme="light"] .sheet,
+html[data-theme="light"] .playerCard,
+html[data-theme="light"] .tagCard,
+html[data-theme="light"] .tagCardV21,
+html[data-theme="light"] .runnerMiniHistoryV295,
+html[data-theme="light"] .playerDbRowV297,
+html[data-theme="light"] .databasePlayerCardV2991,
+html[data-theme="light"] .lineupRowCleanV241,
+html[data-theme="light"] .lineupRowCleanV255,
+html[data-theme="light"] [class*="lineupRow"],
+html[data-theme="light"] [class*="PlayerCard"],
+html[data-theme="light"] [class*="playerCard"],
+html[data-theme="light"] [class*="HistoryRow"],
+html[data-theme="light"] [class*="historyRow"]{
+  background:#ffffff!important;color:#111827!important;border-color:#c7cdd5!important;text-shadow:none!important;
+}
+html[data-theme="light"] .tagCardV21,
+html[data-theme="light"] [class*="tagCard"],
+html[data-theme="light"] [class*="TagCard"]{background:#ffffff!important;color:#111827!important;border-color:#c7cdd5!important}
+html[data-theme="light"] .tagMainV21,
+html[data-theme="light"] .tagTimeV21,
+html[data-theme="light"] .tagSubV21,
+html[data-theme="light"] .tagMatch,
+html[data-theme="light"] .tagMeta,
+html[data-theme="light"] .lineupNameCleanV241,
+html[data-theme="light"] .lineupNameCleanV255,
+html[data-theme="light"] .lineupSubCleanV241,
+html[data-theme="light"] .lineupSubCleanV255,
+html[data-theme="light"] .runnerHistoryRowV294 b,
+html[data-theme="light"] .runnerHistoryRowV294 span,
+html[data-theme="light"] .runnerMiniRowV295 b,
+html[data-theme="light"] .runnerMiniRowV295 small,
+html[data-theme="light"] .playerDbIdentityV297 b,
+html[data-theme="light"] .playerDbIdentityV297 small,
+html[data-theme="light"] .playerDetailsV299,
+html[data-theme="light"] .playerDetailsV299 b,
+html[data-theme="light"] .playerHandV299,
+html[data-theme="light"] .playerDbFullDetailsV2991,
+html[data-theme="light"] .playerDetailsFullV2991,
+html[data-theme="light"] .playerDbFullDetailsV2991 b,
+html[data-theme="light"] .playerDetailsFullV2991 b{
+  color:#111827!important;text-shadow:none!important;
+}
+html[data-theme="light"] .tagTimeV21,
+html[data-theme="light"] .tagSubV21,
+html[data-theme="light"] .lineupSubCleanV241,
+html[data-theme="light"] .lineupSubCleanV255,
+html[data-theme="light"] .playerDbIdentityV297 small,
+html[data-theme="light"] .playerDetailsV299,
+html[data-theme="light"] .playerHandV299,
+html[data-theme="light"] .playerDbFullDetailsV2991,
+html[data-theme="light"] .playerDetailsFullV2991,
+html[data-theme="light"] .playerDbStatusV297,
+html[data-theme="light"] .playerDbUpdateStatusV298{color:#4b5563!important}
+html[data-theme="light"] .playerDbOpenBtnV297,
+html[data-theme="light"] .databasePlayerCardV2991 .actions button:first-child,
+html[data-theme="light"] .editV21,
+html[data-theme="light"] .editMini,
+html[data-theme="light"] #dbPlayerQuickEditCloseV2995,
+html[data-theme="light"] .dbPlayerBatChoicesV2995 button{
+  background:#ffffff!important;color:#111827!important;border-color:#9ca3af!important;
+}
+html[data-theme="light"] .dbPlayerQuickEditHeadV2995 h2,
+html[data-theme="light"] .dbPlayerQuickEditLabelV2995,
+html[data-theme="light"] .dbPlayerBatChoicesV2995 button span{color:#374151!important}
+html[data-theme="light"] .dbPlayerQuickEditNumV2995{background:#fff!important;color:#111827!important;border-color:#9ca3af!important}
+html[data-theme="light"] .runnerMiniHistoryHeadV295{background:#f3f4f6!important;color:#FD5A1E!important}
+html[data-theme="light"] .runnerMiniRowV295{background:#fff!important;border-color:#d1d5db!important}
+html[data-theme="light"] .statLine div,
+html[data-theme="light"] .stats div{background:#fff!important;color:#111827!important;border-color:#c7cdd5!important}
+html[data-theme="light"] .statLine small,
+html[data-theme="light"] .stats small{color:#4b5563!important}
+/* Keep orange/semantic buttons readable after generic light conversion. */
+html[data-theme="light"] .tab.active,
+html[data-theme="light"] #resultBtn,
+html[data-theme="light"] #saveDetail,
+html[data-theme="light"] #exportCsv,
+html[data-theme="light"] #createGame,
+html[data-theme="light"] .choiceGrid button.selected,
+html[data-theme="light"] .pitchCompact button.selected,
+html[data-theme="light"] [class*="selected"],
+html[data-theme="light"] [aria-pressed="true"],
+html[data-theme="light"] .playerDbRowV297 button:not(:disabled){color:#fff!important}
+/* Dark mode is intentionally untouched by this patch. */
+
+/* Easy Tagg v2.9.10.110 - targeted Light Mode contrast fixes only. */
+/* New Player selectors: make the selected value readable in Light Mode. */
+html[data-theme="light"] #rosterScreen .rosterChoiceCardV291032,
+html[data-theme="light"] #rosterScreen .appSelectButtonV291032{
+  background:#ffffff!important;color:#111827!important;border-color:#c7cdd5!important;box-shadow:inset 0 -3px 0 rgba(253,90,30,.18)!important;
+}
+html[data-theme="light"] #rosterScreen .rosterChoiceCardV291032 b,
+html[data-theme="light"] #rosterScreen .appSelectButtonV291032 b{color:#111827!important;text-shadow:none!important;}
+html[data-theme="light"] #rosterScreen .rosterChoiceCardV291032 span,
+html[data-theme="light"] #rosterScreen .appSelectButtonV291032 span,
+html[data-theme="light"] #rosterScreen .rosterChoiceCardV291032 i,
+html[data-theme="light"] #rosterScreen .appSelectButtonV291032 i{color:#c94a18!important;}
+
+/* History result label: white in Light Mode, matching Dark Mode. */
+html[data-theme="light"] #historyList .tagResult,
+html[data-theme="light"] #historyList [class*="tagResult"],
+html[data-theme="light"] #historyList [class*="result"]{color:#ffffff!important;text-shadow:none!important;}
+
+/* Live strike-zone marker: black in Light Mode; existing white marker remains in Dark Mode. */
+html[data-theme="light"] #marker{color:#000000!important;text-shadow:none!important;}
+html[data-theme="dark"] #marker{color:#ffffff!important;}
+
+/* Add-to-Lineup picker keeps its blue cards, but player names/hands get strong contrast. */
+html[data-theme="light"] #lineupRosterListV255 .lineupPlayerCleanV255,
+html[data-theme="light"] #lineupRosterListV241 .lineupPlayerCleanV241{
+  background:#142033!important;border-color:#395064!important;
+}
+html[data-theme="light"] #lineupRosterListV255 .lineupNameCleanV255,
+html[data-theme="light"] #lineupRosterListV241 .lineupNameCleanV241,
+html[data-theme="light"] #lineupRosterListV255 .lineupNameTextV29103,
+html[data-theme="light"] #lineupRosterListV241 .lineupNameTextV29103,
+html[data-theme="light"] #lineupRosterListV255 .lineupFirstNameV291038,
+html[data-theme="light"] #lineupRosterListV241 .lineupFirstNameV291038{color:#ffffff!important;text-shadow:0 1px 1px rgba(0,0,0,.35)!important;}
+html[data-theme="light"] #lineupRosterListV255 .lineupSubCleanV255,
+html[data-theme="light"] #lineupRosterListV241 .lineupSubCleanV241{color:#f3f4f6!important;}
+
+/* Easy Tagg v2.9.10.111 - Manual IZ/OZ Zone Mode */
+.zoneModeControlV2910111{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px;padding:12px 14px;border:1px solid var(--et-border,#333);border-radius:14px;background:var(--et-surface,#111)}
+.zoneModeTextV2910111{display:flex;flex-direction:column;gap:2px}.zoneModeTextV2910111 b{font-size:13px;color:var(--orange)}.zoneModeTextV2910111 span{font-size:11px;color:var(--et-muted,#999);font-weight:800}
+.manualZoneButtonsV2910111{display:none;grid-template-columns:1fr 1fr;gap:10px;padding:14px 6px 6px}.manualZoneButtonsV2910111 button{min-height:58px;font-weight:900;font-size:15px}.manualZoneButtonsV2910111 button.selected{outline:3px solid var(--orange);outline-offset:1px}
+html[data-zone-mode="manual"] #zone{display:none!important}html[data-zone-mode="manual"] .manualZoneButtonsV2910111{display:grid!important}html[data-zone-mode="manual"] .catcherViewV291058{display:none!important}
+
+
+/* Easy Tagg v2.9.10.119 - Complete UI Dark/Light Polish
+   VISUAL-ONLY override layer. No game/tag/timer/sync logic is changed. */
+
+/* COUNT label mirrors the existing PITCH label without changing counter IDs/handlers. */
+.countRow{
+  grid-template-columns:45px repeat(3,minmax(0,1fr))!important;
+  align-items:center!important;
+}
+.countLabelV2910119{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  min-height:34px!important;
+  padding-left:1px!important;
+  color:var(--orange)!important;
+  font-size:11px!important;
+  font-weight:900!important;
+  line-height:1!important;
+  text-transform:none!important;
+}
+
+/* Lineup remove X: preserve the 32px touch target while rendering only the glyph. */
+.lineupXButtonV291026,
+.lineupXButtonV291026:hover,
+.lineupXButtonV291026:focus,
+.lineupXButtonV291026:focus-visible,
+.lineupXButtonV291026:active,
+html[data-theme="light"] .lineupXButtonV291026,
+html[data-theme="dark"] .lineupXButtonV291026{
+  -webkit-appearance:none!important;
+  appearance:none!important;
+  background:none!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+  filter:none!important;
+  color:var(--orange)!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+.lineupXButtonV291026 span,
+.lineupXButtonV291026:hover span,
+.lineupXButtonV291026:focus span,
+.lineupXButtonV291026:active span{
+  background:transparent!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+  color:var(--orange)!important;
+  text-shadow:none!important;
+}
+.lineupXButtonV291026:active{transform:scale(.90)!important;}
+
+/* Professional theme consistency for surfaces that accumulated legacy hard-coded colors. */
+.sheet,.sheetHead,.more,.top,.stats,.zoneCard,
+.activityRosterToolsV252,.playerCard,.tagCard,
+[class*="Modal"],[class*="modal"]{
+  border-color:var(--et-border)!important;
+}
+.sheet{background:var(--et-surface)!important;color:var(--et-text)!important;box-shadow:0 -12px 36px var(--et-shadow)!important;}
+.sheetHead{background:var(--et-surface)!important;color:var(--et-text)!important;}
+.sheetHead h2{color:var(--et-text)!important;text-shadow:none!important;}
+.sheetHead .close,.close{
+  color:var(--et-text)!important;
+  border-color:var(--et-border)!important;
+  box-shadow:none!important;
+}
+.sheetHead .close:focus,.sheetHead .close:focus-visible,.close:focus,.close:focus-visible{outline:2px solid var(--orange)!important;outline-offset:2px!important;}
+
+/* Form controls should inherit the active theme rather than old dark-only fills. */
+input:not([type="checkbox"]):not([type="radio"]),select,textarea{
+  background-color:var(--et-input)!important;
+  color:var(--et-text)!important;
+  border-color:var(--et-border)!important;
+  box-shadow:none!important;
+}
+
+/* Keep ordinary secondary buttons neutral in both themes; semantic/orange selections remain governed by existing rules. */
+.countRow button,
+.more button,
+.activityRosterToolsV252 button,
+.lineupToolsCleanV241 button,.lineupToolsCleanV255 button,
+.lineupActionsCleanV241 button,.lineupActionsCleanV255 button,
+.rosterAddCleanV241 button,.rosterAddCleanV255 button{
+  border-color:var(--et-border)!important;
+  box-shadow:none!important;
+}
+html[data-theme="light"] .countRow button{
+  background:#ffffff!important;color:#111827!important;border-color:#c7cdd5!important;
+}
+html[data-theme="dark"] .countRow button{
+  background:#141414!important;color:#ffffff!important;border-color:#363636!important;
+}
+.countRow button b{color:var(--orange)!important;}
+
+/* Remove browser focus rectangles/shadows from purely visual lineup controls, while keeping useful focus on real form controls. */
+.lineupHandleV2910:focus,.lineupHandleV2910:focus-visible{outline:none!important;box-shadow:none!important;}
+
+/* Theme-safe text on common cards and picker rows. */
+html[data-theme="light"] .sheet:not(#lineupRosterSheetV255) .listBtn,
+html[data-theme="light"] .sheet:not(#lineupRosterSheetV255) .playerCard{
+  color:#111827!important;
+}
+html[data-theme="dark"] .listBtn,
+html[data-theme="dark"] .playerCard{color:#ffffff!important;}
+
+/* Preserve confirmed special contrast behavior. */
+html[data-theme="light"] #historyList .tagResult,
+html[data-theme="light"] #historyList [class*="tagResult"]{color:#ffffff!important;}
+html[data-theme="light"] #marker{color:#000000!important;}
+html[data-theme="dark"] #marker{color:#ffffff!important;}
+
+
+/* ===== v2.9.10.120 profile + faster-action visual polish ===== */
+.playerInfoV120{margin:10px 0 12px;border:1px solid var(--et-border,#3b4658);border-radius:12px;overflow:hidden;background:var(--et-surface,#111827)}
+.playerInfoV120 summary{cursor:pointer;padding:11px 13px;font-weight:900;letter-spacing:.04em;list-style:none}
+.playerInfoV120 summary::-webkit-details-marker{display:none}.playerInfoV120 summary:after{content:"▾";float:right}.playerInfoV120[open] summary:after{content:"▴"}
+.playerInfoGridV120{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:0 10px 12px}.playerInfoGridV120 label{font-size:11px;font-weight:800;letter-spacing:.03em}.playerInfoGridV120 input,.playerInfoGridV120 select{width:100%;margin-top:4px}
+#savePlayer,.playerDbOpenBtnV297,#runnerEventBtnV294,#lineupAddBtnV255,.playerCard .actions button:not(.danger),#addToActivityRosterBtnV252{box-shadow:0 3px 10px rgba(0,0,0,.28)!important;border-width:1px!important;font-weight:850!important}
+#savePlayer:active,.playerDbOpenBtnV297:active,#runnerEventBtnV294:active,#lineupAddBtnV255:active,.playerCard .actions button:not(.danger):active,#addToActivityRosterBtnV252:active{transform:translateY(1px)!important;box-shadow:0 1px 4px rgba(0,0,0,.22)!important}
+html[data-theme="light"] .playerInfoV120{background:#fff!important;border-color:#b8c0cc!important}html[data-theme="light"] .playerInfoV120 summary{color:#111827!important}
+html[data-theme="light"] #savePlayer,html[data-theme="light"] .playerDbOpenBtnV297,html[data-theme="light"] #runnerEventBtnV294,html[data-theme="light"] #lineupAddBtnV255,html[data-theme="light"] .playerCard .actions button:not(.danger),html[data-theme="light"] #addToActivityRosterBtnV252{box-shadow:0 3px 9px rgba(17,24,39,.20)!important}
+@media(max-width:520px){.playerInfoGridV120{grid-template-columns:1fr 1fr}}
+
+/* ===== v2.9.10.121 exact action-button emphasis ===== */
+#savePlayer,
+#openPlayerDatabaseBtnV297,
+#runnerEventBtnV294,
+#lineupAddBtnV255,
+#addExistingPlayerBtnV252,
+.playerCard .actions button:not(.danger),
+.databasePlayerCardV2991 .actions button:not(.danger){
+  border:1px solid rgba(255,255,255,.22)!important;
+  box-shadow:0 4px 12px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.10)!important;
+  font-weight:850!important;
+}
+html[data-theme="light"] #savePlayer,
+html[data-theme="light"] #openPlayerDatabaseBtnV297,
+html[data-theme="light"] #runnerEventBtnV294,
+html[data-theme="light"] #lineupAddBtnV255,
+html[data-theme="light"] #addExistingPlayerBtnV252,
+html[data-theme="light"] .playerCard .actions button:not(.danger),
+html[data-theme="light"] .databasePlayerCardV2991 .actions button:not(.danger){
+  border-color:#9aa5b5!important;
+  box-shadow:0 4px 11px rgba(17,24,39,.28),inset 0 1px 0 rgba(255,255,255,.75)!important;
+}
+
+/* ===== v2.9.10.122 lightweight tactile button feedback =====
+   CSS-only :active feedback. No JS handlers, timers, haptics, clock or tag pipeline changes. */
+button:not(.lineupXButtonV291026):not(#bBtn):not(#sBtn):not(#oBtn):active,
+.btn:not(.lineupXButtonV291026):active,
+[role="button"].etTactileV122:active{
+  transform:translateY(1px) scale(.985)!important;
+  box-shadow:0 1px 3px rgba(0,0,0,.24)!important;
+}
+
+/* ===== v2.9.10.126 confirmed START GAME zone overlay ===== */
+.zoneCard{position:relative!important;}
+#zone{position:relative!important;}
+.startGameOverlayV126{
+  position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;
+  padding:12px;background:rgba(3,8,18,.82);backdrop-filter:blur(2px);border-radius:inherit;
+}
+.startGameOverlayV126[hidden]{display:none!important;}
+.startGamePanelV126{width:min(86%,280px);display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;}
+.startGamePanelV126 small{font-size:11px;font-weight:1000;letter-spacing:1.5px;color:#d1d5db;}
+.startGamePanelV126 span{font-size:11px;font-weight:800;color:#e5e7eb;}
+#startGameBtnV126{
+  width:100%;min-height:58px!important;margin:0!important;border:2px solid #ff9b6f!important;border-radius:16px!important;
+  background:linear-gradient(135deg,#ff3b0a,#FD5A1E)!important;color:#fff!important;font-size:20px!important;
+  font-weight:1000!important;letter-spacing:.5px!important;box-shadow:0 9px 24px rgba(253,90,30,.38)!important;
+}
+#startGameBtnV126:active{transform:translateY(1px) scale(.975)!important;}
+.tagPregameV126 .zoneCard,.tagPregameV126 .pitchCompact,.tagPregameV126 .countRow,.tagPregameV126 .quickGrid,.tagPregameV126 .more{filter:saturate(.55);}
+.tagPregameV126 button:disabled,.tagPregameV126 input:disabled,.tagPregameV126 select:disabled{opacity:.42!important;cursor:not-allowed!important;}
+.tagPregameV126 #batterBtn,.tagPregameV126 #pitcherBtn,.tagPregameV126 .offenseSwitchV27 button{opacity:1!important;filter:none!important;}
+.startGameConfirmSheetV126 p{text-align:center;font-size:14px;font-weight:800;line-height:1.4;margin:12px 4px!important;}
+.startGameConfirmActionsV126{display:grid;grid-template-columns:1fr 1.25fr;gap:10px;margin-top:12px;}
+.startGameConfirmActionsV126 button{min-height:48px!important;font-weight:1000!important;border-radius:12px!important;}
+#confirmStartGameV126{background:linear-gradient(135deg,#ff3b0a,#FD5A1E)!important;border-color:#ff9b6f!important;color:#fff!important;}
+html[data-theme="light"] .startGameOverlayV126{background:rgba(15,23,42,.78)!important;}
+html[data-theme="light"] .startGameConfirmSheetV126{
+  background:#ffffff!important;color:#111827!important;border:1px solid #cbd5e1!important;
+  box-shadow:0 18px 44px rgba(15,23,42,.28)!important;
+}
+html[data-theme="light"] .startGameConfirmSheetV126 .sheetHead,
+html[data-theme="light"] .startGameConfirmSheetV126 h2,
+html[data-theme="light"] .startGameConfirmSheetV126 p{color:#111827!important;}
+html[data-theme="light"] #cancelStartGameV126{
+  background:#e5e7eb!important;color:#111827!important;border-color:#9ca3af!important;
+}
+html[data-theme="light"] #confirmStartGameV126{
+  background:linear-gradient(135deg,#e93808,#FD5A1E)!important;color:#ffffff!important;border-color:#c2410c!important;
+}
+
+/* ===== v2.9.10.131 complete theme contrast + internal confirmations ===== */
+.appConfirmSheetV131{
+  left:50%!important;right:auto!important;bottom:50%!important;transform:translate(-50%,50%)!important;
+  width:min(390px,calc(100vw - 28px))!important;max-height:none!important;overflow:hidden!important;
+  border:1px solid var(--orange)!important;box-shadow:0 18px 60px var(--et-shadow)!important;
+}
+.appConfirmMessageV131,.appAlertMessageV2911{
+  margin:10px 2px 14px!important;padding:12px!important;border-radius:10px!important;
+  background:var(--et-surface-2)!important;color:var(--et-text)!important;border-left:3px solid var(--orange)!important;
+  font-size:14px!important;font-weight:750!important;line-height:1.45!important;text-align:left!important;white-space:pre-line!important;
+}
+.appConfirmActionsV131{display:grid;grid-template-columns:1fr 1.25fr;gap:10px;margin-top:12px!important;}
+.appConfirmActionsV131 button{min-height:48px!important;margin:0!important;border-radius:12px!important;font-weight:1000!important;}
+#appConfirmCancelV131{background:var(--et-surface-2)!important;color:var(--et-text)!important;border-color:var(--et-border)!important;}
+#appConfirmOkV131{background:linear-gradient(135deg,#ff3b0a,var(--orange))!important;color:#fff!important;border-color:#ff9b6f!important;}
+.appConfirmDangerV131 #appConfirmOkV131{background:linear-gradient(135deg,#9f1414,#d72828)!important;border-color:#ff6b6b!important;color:#fff!important;}
+
+html[data-theme="light"] .appAlertSheetV2911,
+html[data-theme="light"] .appConfirmSheetV131{background:#fff!important;color:#111827!important;border-color:#c2410c!important;}
+html[data-theme="light"] .appAlertSheetV2911 .sheetHead h2,
+html[data-theme="light"] .appConfirmSheetV131 .sheetHead h2{color:#111827!important;}
+html[data-theme="light"] .appAlertMessageV2911,
+html[data-theme="light"] .appConfirmMessageV131{background:#f3f4f6!important;color:#111827!important;border-color:var(--orange)!important;}
+html[data-theme="light"] .appAlertOkV2911{background:linear-gradient(135deg,#e93808,var(--orange))!important;color:#fff!important;}
+
+/* The activity picker intentionally keeps dark blue cards in both themes. */
+#activityRosterListV252 .activityPlayerV252{
+  background:linear-gradient(180deg,#203b68,#14284b)!important;border-color:#456a9e!important;color:#fff!important;
+}
+#activityRosterListV252 .activityPlayerV252 b,
+#activityRosterListV252 .activityPlayerV252 small{color:#fff!important;}
+#activityRosterListV252 .activityPlayerV252 .num{color:#ff6a2a!important;}
+#activityRosterListV252 .activityPlayerV252 button:not(.danger){background:#fff!important;color:#273142!important;border-color:#cbd5e1!important;}
+
+/* Player At-Bats: explicit contrast instead of inherited generic sheet colors. */
+html[data-theme="light"] .playerAtBatsRefreshBarV291073 small{color:#4b5563!important;}
+html[data-theme="dark"] .playerAtBatsRefreshBarV291073 small{color:#d1d5db!important;}
+html[data-theme="light"] .playerAtBatsBackV291094{background:#fff3ed!important;color:#7c2d12!important;border-color:#ea580c!important;}
+html[data-theme="dark"] .playerAtBatsBackV291094{background:rgba(255,105,42,.13)!important;color:#fff!important;border-color:rgba(255,105,42,.8)!important;}
+.playerAtBatsPlayerRowV291094,.playerAtBatsDetailAbV291094{color:#fff!important;}
+.playerAtBatsPlayerRowV291094 b,.playerAtBatsDetailAbV291094 p,.playerAtBatsDetailAbV291094 span,.playerAtBatsDetailAbV291094 small{color:#fff!important;}
+
+/* ===== v2.9.10.132 orange identification for primary actions ===== */
+#savePlayer,#saveEditedTag,#dbPlayerQuickEditSaveV2995,
+#openPlayerDatabaseBtnV297,#runnerEventBtnV294,
+#historyList .editMini,#historyList .editV21,
+.playerCard .actions button:not(.danger),.databasePlayerCardV2991 .actions button:not(.danger){
+  background:linear-gradient(135deg,#ff3b0a,#FD5A1E)!important;
+  color:#fff!important;border:1px solid #ff9b6f!important;font-weight:900!important;
+  box-shadow:0 5px 14px rgba(253,90,30,.45),inset 0 1px 0 rgba(255,255,255,.22)!important;
+}
+#savePlayer:active,#saveEditedTag:active,#dbPlayerQuickEditSaveV2995:active,
+#openPlayerDatabaseBtnV297:active,#runnerEventBtnV294:active,
+#historyList .editMini:active,#historyList .editV21:active,
+.playerCard .actions button:not(.danger):active,.databasePlayerCardV2991 .actions button:not(.danger):active{
+  transform:translateY(1px) scale(.985)!important;
+  box-shadow:0 2px 7px rgba(253,90,30,.38)!important;
+}
+html[data-theme="light"] #savePlayer,html[data-theme="light"] #saveEditedTag,
+html[data-theme="light"] #dbPlayerQuickEditSaveV2995,
+html[data-theme="light"] #openPlayerDatabaseBtnV297,html[data-theme="light"] #runnerEventBtnV294,
+html[data-theme="light"] #historyList .editMini,html[data-theme="light"] #historyList .editV21,
+html[data-theme="light"] .playerCard .actions button:not(.danger),
+html[data-theme="light"] .databasePlayerCardV2991 .actions button:not(.danger){
+  background:linear-gradient(135deg,#e93808,#FD5A1E)!important;color:#fff!important;
+  border-color:#c2410c!important;box-shadow:0 5px 13px rgba(194,65,12,.38)!important;
+}
