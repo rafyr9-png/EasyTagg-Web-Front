@@ -390,9 +390,20 @@ function exportInGameXls(){
 function inGameFname(){
   return ((game()?.name||"easy_tagg_ingame").replace(/[^a-zA-Z0-9_-]/g,"_"))+"_InGameData_"+new Date().toISOString().slice(0,10)+".csv";
 }
+function etDownloadCsvInBrowser(name,content){
+  const blob=new Blob([content],{type:"text/csv;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download=name;
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
 function exportInGameCsv(){
   const c=inGameCsv();
-  if(window.AndroidBridge)AndroidBridge.saveCsv(inGameFname(),c);
+  const name=inGameFname();
+  if(window.AndroidBridge && AndroidBridge.saveCsv)AndroidBridge.saveCsv(name,c);
+  else etDownloadCsvInBrowser(name,c);
   if($("csvStatus"))$("csvStatus").textContent="CSV In Game Data guardado.";
 }
 function copyInGameCsv(){
@@ -409,7 +420,7 @@ function etSyncExportTag(t){
   });
 }
 function esc(v){return `"${String(v??"").replaceAll('"','""')}"`}function csv(){return headers.join(",")+"\n"+gt().map(t=>{const row=etSyncExportTag(t);return headers.map(h=>esc(row[h])).join(",")}).join("\n")}function fname(){return ((game()?.name||"easy_tagg").replace(/[^a-zA-Z0-9_-]/g,"_"))+"_"+new Date().toISOString().slice(0,10)+".csv"}
-function exportCsv(){if(window.AndroidBridge)AndroidBridge.saveCsv(fname(),csv());$("csvStatus").textContent="CSV Sync guardado."}function copyCsv(){navigator.clipboard?.writeText(csv());$("csvStatus").textContent="CSV Sync copiado."}function renderCsv(){if($("csvPreview"))$("csvPreview").value=csv()}
+function exportCsv(){const name=fname();const c=csv();if(window.AndroidBridge && AndroidBridge.saveCsv)AndroidBridge.saveCsv(name,c);else etDownloadCsvInBrowser(name,c);$("csvStatus").textContent="CSV Sync guardado."}function copyCsv(){navigator.clipboard?.writeText(csv());$("csvStatus").textContent="CSV Sync copiado."}function renderCsv(){if($("csvPreview"))$("csvPreview").value=csv()}
 function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("active",s.id==id));document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.screen==id));render()}
 
 
