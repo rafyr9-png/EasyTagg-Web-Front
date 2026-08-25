@@ -118,3 +118,235 @@ body,
   border: 0;
   background: #050505;
 }
+.nav {
+  display: flex;
+  gap: 6px;
+  padding: 8px 10px;
+  background: #0a0a0a;
+  border-bottom: 1px solid #292929;
+}
+.nav button {
+  background: #151515;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.nav button.active {
+  background: #fd5a1e;
+  border-color: #ff8559;
+}
+.content {
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+}
+.panel {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.panel h2 {
+  margin-top: 0;
+}
+.panel select,
+.panel input,
+.smallForm input {
+  background: #151515;
+  color: #fff;
+  border: 1px solid #383838;
+  border-radius: 10px;
+  padding: 10px;
+}
+.panel button {
+  background: #151515;
+  color: #fff;
+  border: 1px solid #383838;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.panel button.primary,
+.detailSheet button.primary {
+  background: #fd5a1e;
+  border-color: #ff8559;
+}
+.panel button.danger {
+  background: #3a1414;
+  border-color: #7a2a2a;
+  color: #ffb3b3;
+}
+.panel button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px 0;
+  border-bottom: 1px solid #232323;
+}
+.row2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.smallForm {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+.list {
+  margin-top: 10px;
+}
+.muted {
+  color: #999;
+  font-size: 12px;
+}
+.counts {
+  margin: 12px 0;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.resultButtons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+.resultButtons button {
+  background: #151515;
+  color: #fff;
+  border: 1px solid #383838;
+  border-radius: 10px;
+  padding: 12px 6px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.resultButtons button:hover {
+  border-color: #fd5a1e;
+}
+.zoneGrid {
+  display: inline-grid;
+  grid-template-rows: repeat(3, 1fr);
+  gap: 4px;
+  background: #151515;
+  border: 1px solid #383838;
+  border-radius: 10px;
+  padding: 6px;
+}
+.zoneRow {
+  display: grid;
+  grid-template-columns: repeat(3, 48px);
+  gap: 4px;
+}
+.zoneCell {
+  height: 48px;
+  background: #1c1c1c;
+  border: 1px solid #383838;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+}
+.zoneCell.active {
+  background: #fd5a1e;
+  border-color: #ff8559;
+}
+.detailSheet {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: grid;
+  place-items: center;
+  z-index: 50;
+  padding: 16px;
+}
+.detailSheetCard {
+  width: min(420px, 100%);
+  background: #0d0d0d;
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 25px 70px #000;
+}
+.detailSheetCard h3 {
+  margin: 14px 0 8px;
+}
+.detailSheetCard h3:first-child {
+  margin-top: 0;
+}
+.choiceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.choiceGrid button {
+  background: #151515;
+  color: #fff;
+  border: 1px solid #383838;
+  border-radius: 10px;
+  padding: 12px 6px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.choiceGrid button.selected {
+  background: #fd5a1e;
+  border-color: #ff8559;
+}
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+.clock {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+.migratePanel {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: grid;
+  place-items: center;
+  z-index: 50;
+  padding: 16px;
+}
+.migratePanel > div {
+  width: min(480px, 100%);
+  background: #0d0d0d;
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 25px 70px #000;
+  position: relative;
+}
+.migratePanel .close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: 0;
+  color: #999;
+  font-size: 18px;
+  cursor: pointer;
+}
+.migratePanel .error {
+  color: #ffb3b3;
+  background: #3a1414;
+  border-radius: 8px;
+  padding: 10px;
+}
+.migratePanel .result {
+  background: #151515;
+  border-radius: 8px;
+  padding: 10px;
+  overflow: auto;
+  max-height: 40vh;
+  font-size: 12px;
+}

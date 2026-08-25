@@ -231,10 +231,11 @@ export default function Tagging() {
     }
   }
 
-  async function saveTag(p?: any) {
+  async function saveTag(p?: any, d?: { contact: string; trajectory: string }) {
     if (!p) p = pending;
     if (!p) return;
-    if (needDetail(p.result) && (!detail.contact || !detail.trajectory)) {
+    const dt = d || detail;
+    if (needDetail(p.result) && (!dt.contact || !dt.trajectory)) {
       setDetailOpen(true);
       return;
     }
@@ -265,7 +266,7 @@ export default function Tagging() {
       clip_end_time: fmtSecs(p.ce),
       inning: 1,
       half: 'top',
-      batting_side: 'away',
+      batting_side: battingSide,
       balls_before: balls,
       strikes_before: strikes,
       outs_before: outs,
@@ -284,8 +285,8 @@ export default function Tagging() {
       zone_y: p.zy === '' ? '' : Math.round(Number(p.zy) || 0),
       result: p.result,
       final_result: p.result,
-      contact_quality: detail.contact || 'No Contact',
-      trajectory: detail.trajectory || '',
+      contact_quality: needDetail(p.result) ? dt.contact : 'No Contact',
+      trajectory: dt.trajectory || '',
       spray_location: '',
       exit_velocity: '',
       note: '',
@@ -363,13 +364,17 @@ export default function Tagging() {
 
       {detailOpen && (
         <DetailSheet
-          detail={detail.trajectory}
+          contact={detail.contact}
+          trajectory={detail.trajectory}
           onSave={(d) => {
-            setDetail((prev) => ({ ...prev, trajectory: d }));
+            setDetail(d);
             setDetailOpen(false);
-            saveTag();
+            saveTag(pending, d);
           }}
-          onCancel={() => setDetailOpen(false)}
+          onCancel={() => {
+            setDetailOpen(false);
+            setPending(null);
+          }}
         />
       )}
 
