@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { api } from '../api';
+import { api, API_BASE } from '../api';
 
 type UserSetter = { onAuth: (u: any) => void };
 export default function Auth({ onAuth }: UserSetter) {
@@ -37,9 +37,6 @@ export default function Auth({ onAuth }: UserSetter) {
     } finally {
       setBusy(false);
     }
-  };
-  const google = () => {
-    window.location.href = '/api/auth/google';
   };
   return (
     <div className="authPage">
@@ -95,7 +92,7 @@ export default function Auth({ onAuth }: UserSetter) {
           </button>
         </form>
         <div className="or">or</div>
-        <button onClick={google}>Continue with Google OAuth</button>
+        <button onClick={() => window.location.href = `${API_BASE}/auth/google`}>Continue with Google OAuth</button>
         {msg && <p className="msg">{msg}</p>}
         <p className="foot">Email verification · OAuth · Magic Links · JWT</p>
       </div>
